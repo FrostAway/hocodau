@@ -1,0 +1,61 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 27, 2015, 9:41:38 PM
+    Author     : IgnoredBy
+*/
+
+@import "mixins.less";
+
+
+#top-header{
+    .top-head(40px, 10px 5px, #cccccc);
+}
+
+#logo{
+    margin-bottom: 10px;
+}
+
+#main-menu{
+    .mx-menu(50px, #0099cc);
+}
+#slide{
+    .mx-slide(100%, 500px);
+}
+
+form.search-form{
+    input[type="text"]{
+        height: 50px; font-size: 16px;
+    }
+    .glyphicon-search{
+        font-size: 20px;
+    }
+    button{display: inline;}
+    margin-bottom: 10px;
+}
+.shopping-cart{
+    .glyphicon-shopping-cart{
+        font-size: 20px;
+    }
+    a{font-size: 20px; color: #0033ff;}
+    margin-bottom: 10px;
+    .btn{padding: 10px 12px;}
+}
+
+.banner{
+    height: 100px;
+}
+
+.products{
+    .productsbt(253px, 340px);
+}
+
+#footer{
+    padding: 20px 0;
+    background: #00cccc;
+    color: #fff;
+    a{color: #fff;}
+}
