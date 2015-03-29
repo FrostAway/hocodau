@@ -15,9 +15,10 @@
                 <div class="main-box">
                     <div class="box-title">
                         <?php
-                        $args = array('post_type' => 'english-center', 'posts_per_page' => 10, 'paged'=>( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1);
-                        if (isset($_GET['dia-diem'])) {
+                        $args = array('post_type' => 'english-center', 'posts_per_page' => 10, 'paged' => ( get_query_var('paged') ) ? get_query_var('paged') : 1);
+                        if (isset($_GET['dia-diem']) && $_GET['dia-diem']!='') {
                             $prov = $_GET['dia-diem'];
+                            $prov = split('-', $prov)[1];
                             $args['tax_query'] = array(
                                 array(
                                     'taxonomy' => 'city-center',
@@ -37,7 +38,35 @@
                         </div>
                     </div>
 
-                    <?php include_once 'includes/filte-local.php'; ?>
+
+                    <div class="bar-filter">
+                        <div class="row">
+                            <form class="" id="filter-form" method="get" action="">
+
+                                <div class="col-sm-12 col-lg-3">
+                                    <?php include_once 'filter/location.php'; ?>
+                                </div>
+                                <div class="col-sm-12 col-lg-1">
+                                    <div class="form-group">
+                                        <label class="control-label"> Tìm</label>
+                                        <div><input class="btn btn-success" type="submit" value="Lọc" /></div>
+                                    </div>
+                                </div>
+                                <!--<input type="hidden" name="filter-submit" value="filter-submit" />-->
+                                <div class="col-sm-12 col-lg-1">
+                                    <?php
+                                    global $wp;
+                                    $current_url = home_url(add_query_arg(array(), $wp->request))
+                                    ?>
+                                    <label class="control-label">Bỏ</label>
+                                    <div class="form-group">
+                                        <a class="btn btn-danger" href="<?php echo $current_url ?>">Xóa</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
 
                     <div class="posts">
                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
@@ -93,7 +122,7 @@
                                 <?php edit_post_link("Edit"); ?>
                                 <hr class="clearfix" />
                             <?php endwhile; ?>
-                            
+
                             <div class="pagination">
                                 <?php
                                 global $wp_query;
@@ -103,20 +132,22 @@
                                 echo paginate_links(array(
                                     'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
                                     'format' => '?paged=%#%',
-                                    'current' => ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1,
+                                    'current' => ( get_query_var('paged') ) ? get_query_var('paged') : 1,
                                     'total' => $wp_query->max_num_pages
                                 ));
                                 ?>
                             </div>    
-                            
-                         <?php   wp_reset_query();
-                        else: ?>
+
+                            <?php
+                            wp_reset_query();
+                        else:
+                            ?>
                             <h3>Không có bài viết nào</h3>
-                        <?php endif; ?>
+<?php endif; ?>
 
                         <div class="clearfix"></div>
                         <div class="paging">
-                            
+
                         </div>
                     </div>
                 </div>

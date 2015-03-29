@@ -35,7 +35,7 @@ if (function_exists('register_sidebar')) {
     ));
 }
 if (function_exists('register_nav_menu')) {
-    register_nav_menu('course-menu', 'Course Menus');
+    register_nav_menu('course-menu-2', 'Course Menus');
     register_nav_menu('review-menu', 'Review Menus');
     register_nav_menu('event-menu', 'Event Menus');
     register_nav_menu('tutor-menu', 'Tutor Menus');
@@ -322,7 +322,7 @@ function add_meta_comment_like($comment_id) {
 
 
 function comment_with_like($comment, $args, $depth) {
-    $GLOBALS['comment'] = $comment;
+    $GLOBALS['comment'] = $comment; 
     ?>
     <li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
         <article id="">
@@ -341,7 +341,7 @@ function comment_with_like($comment, $args, $depth) {
                 ?>
                 </div>
                 <div class="comment-content">
-                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 100, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
+                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 35, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
 
                     <div class="reply">
 

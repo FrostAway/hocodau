@@ -86,9 +86,23 @@
                         <?php endif; ?>
 
                         <div class="clearfix"></div>
+                        <div class="pagination">
+                                <?php
+                                global $wp_query;
+
+                                $big = 999999999; // need an unlikely integer
+
+                                echo paginate_links(array(
+                                    'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                                    'format' => '?paged=%#%',
+                                    'current' => ( get_query_var('paged') ) ? get_query_var('paged') : 1,
+                                    'total' => $wp_query->max_num_pages
+                                ));
+                                ?>
+                            </div> 
                         <div class="paging">
-                            <?php previous_posts_link('<img title="Trước" src="'.  get_template_directory_uri().'/assets/images/body/icon-07.png" />') ?>
-                            <?php next_posts_link('<img title="Sau" src="'.  get_template_directory_uri().'/assets/images/body/icon-08.png" />') ?>
+                            <?php // previous_posts_link('<img title="Trước" src="'.  get_template_directory_uri().'/assets/images/body/icon-07.png" />') ?>
+                            <?php // next_posts_link('<img title="Sau" src="'.  get_template_directory_uri().'/assets/images/body/icon-08.png" />') ?>
                         </div>
                     </div>
                 </div>

@@ -1,73 +1,69 @@
 <?php
 
-if (isset($_GET['filter-submit'])) {
+
     add_action('pre_get_posts', 'fl_getpost_query');
 
-    function fl_getpost_query($query) {      
+    function fl_getpost_query($query) {
         if (is_tax('course-cat') || is_search()) {
             $query->set('posts_per_page', 8);
-            if (isset($_GET['muc-gia']) && $_GET['muc-gia']!='') {
+            $metaquery = array();
+            $taxquery = array();
+            if (isset($_GET['muc-gia']) && $_GET['muc-gia'] != '') {
                 $price = $_GET['muc-gia'];
                 $splprice = split("-", $price);
                 if (count($splprice) > 1) {
-                    $metaquery = array(
-                        array(
-                            'key' => 'course-price',
-                            'value' => $splprice,
-                            'type' => 'numeric',
-                            'compare' => 'BETWEEN'
-                        )
+                    $metaquery[] = array(
+                                'key' => 'course-price',
+                                'value' => $splprice,
+                                'type' => 'numeric',
+                                'compare' => 'BETWEEN'
                     );
                 } else {
-                    $metaquery = array(
-                        array(
-                            'key' => 'course-price',
-                            'value' => $price,
-                            'type' => 'numeric',
-                            'compare' => '>'
-                        )
+                    $metaquery[] = array(
+                                'key' => 'course-price',
+                                'value' => $price,
+                                'type' => 'numeric',
+                                'compare' => '>'
                     );
                 }
-                    $query->set('meta_query', $metaquery);
             }
 
-            if (isset($_GET['dau-vao']) && $_GET['dau-vao']!='') {
+            if (isset($_GET['dau-vao']) && $_GET['dau-vao'] != '') {
                 $dv = $_GET['dau-vao'];
                 $dv = split("-", $dv)[1];
-                $query->set('meta_query', array(
-                    array(
-                        'key' => 'course-input',
-                        'value' => $dv,
-                        'type' => 'numeric',
-                        'compare' => '='
-                    )
-                ));
+                $metaquery[] = array(
+                            'key' => 'course-input',
+                            'value' => $dv,
+                            'type' => 'numeric',
+                            'compare' => '='
+                        )
+                ;
             }
+
             if (isset($_GET['dia-diem']) && $_GET['dia-diem'] != '') {
                 $prov = $_GET['dia-diem'];
                 $prov = split('-', $prov)[1];
-                $query->set('tax_query', array(
-                    array(
-                        'taxonomy' => 'city-center',
-                        'field' => 'term',
-                        'terms' => array($prov),
-                        'operator' => 'IN'
-                    )
-                ));
+                $taxquery[] = array(
+                            'taxonomy' => 'city-center',
+                            'field' => 'term',
+                            'terms' => array($prov),
+                            'operator' => 'IN'
+                );
             }
 
             if (isset($_GET['thoi-gian'])) {
-                $tget = $_GET['time'];
+                $tget = $_GET['thoi-gian'];
                 $tget = split('-', $tget)[1];
-                $query->set('meta_query', array(
-                    array(
-                        'key' => 'course-month',
-                        'value' => $tget,
-                        'type' => 'numeric',
-                        'compare' => '='
-                    )
-                ));
+                $metaquery[] = array(
+                            'key' => 'course-month',
+                            'value' => $tget,
+                            'type' => 'numeric',
+                            'compare' => '='
+                );
             }
+            $query->set('meta_query', $metaquery);
+            $query->set('tax_query', $taxquery);
+            
         }
         if (is_tax('tutor-cat')) {
             $query->set('posts_per_page', 8);
@@ -100,6 +96,5 @@ if (isset($_GET['filter-submit'])) {
             $query->set('post_type', 'course');
         }
     }
-    
-}
+
 

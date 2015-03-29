@@ -1,7 +1,12 @@
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 column-left">
     <div class="bar-course hidden-xs">
-        <a href="<?php echo home_url() ?>?course-cat=tat-ca-khoa-hoc"><h3 class="">Các Khóa học</h3></a>
-        <?php wp_nav_menu(array('theme_location'=>'course-menu', 'container'=>'', 'menu_class'=>'list-unstyled')); ?>
+        <a href="<?php echo home_url() ?>/course-cat/tat-ca-khoa-hoc"><h3 class="">Các Khóa học</h3></a>
+            <?php
+            wp_reset_query();            wp_reset_postdata();
+            
+                wp_nav_menu(array('theme_location'=>'course-menu-2', 'container'=>'', 'menu_class'=>'list-unstyled')); 
+            
+            ?>
     </div>
 
     <div class="bar-review hidden-xs">

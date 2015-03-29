@@ -37,6 +37,7 @@
         
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/editor_bar.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/style.css" />
 
 
@@ -71,11 +72,9 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>-->
 	<?php
-//        if(!current_user_can( 'manage_options' ) && !is_page(256)){
-//            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
-//        }else{
-//            
-//        }
+        if(!current_user_can( 'manage_options' ) && !is_page(256)){
+            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
+        }
         ?>
 
 <div id="top-header">

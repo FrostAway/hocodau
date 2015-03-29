@@ -45,7 +45,7 @@ add_action('add_meta_boxes', 'add_my_eng_center_field');
 add_action('add_meta_boxes', 'add_my_post_field');
 
 function add_my_eng_center_field() {
-    add_meta_box('parent-id-info', 'Chọn danh mục', 'show_center_id_box', 'course', 'normal', 'high', array());
+    add_meta_box('parent-info-id', 'Chọn danh mục', 'show_center_id_box', 'course', 'normal', 'high', array());
 }
 function add_my_post_field() {
     add_meta_box('info-course', 'Thông tin khóa học', 'show_course_box', 'course', 'normal', 'high', array());
@@ -211,7 +211,11 @@ function show_course_box() {
                     ?>
                     <tr>
                         <td><label><?php echo $box['label'] ?>: </label></td>
+                        <?php if($box['name'] == 'course-price'){ ?>
+                        <td><input size="<?= $box['size'] ?>" <?php if ($box['name'] == 'course-location') echo 'id="course-center-addr"'; ?> type="number" name="<?php echo $box['name'] ?>" value="<?php if (isset($course)) echo $course[$box['name']][0] ?>" /></td>
+                        <?php }else{ ?>
                         <td><input size="<?= $box['size'] ?>" <?php if ($box['name'] == 'course-location') echo 'id="course-center-addr"'; ?> type="text" name="<?php echo $box['name'] ?>" value="<?php if (isset($course)) echo $course[$box['name']][0] ?>" /></td>
+                        <?php } ?>
                     </tr>
                     <?php
                     break;
