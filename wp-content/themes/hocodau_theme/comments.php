@@ -108,9 +108,9 @@ if (post_password_required()) {
 
                     <div id="editor_bar">
                         <a href="#" class="ibold fa fa-bold"></a>
-                        <a href="#" class="iunderline fa fa-underline" onclick="iUnderline()"></a>
-                        <a href="#" class="iitalic fa fa-italic" onclick="iItalic()"></a>
-                        <select class="ifontsize" onchange="iFontSize()">
+                        <a href="#" class="iunderline fa fa-underline" ></a>
+                        <a href="#" class="iitalic fa fa-italic" ></a>
+                        <select class="ifontsize" >
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -119,13 +119,13 @@ if (post_password_required()) {
                             <option value="6">6</option>
                             <option value="7">7</option>
                         </select>
-                        <a href="#" class="iimage fa fa-image"  onclick="iImage()"  ></a>
-                        <a href="#" class="iol fa fa-list-ol"  onclick="iOrderedList()"></a>
-                        <a href="#" class="iunol fa fa-list-ul"  onclick="iUnOrderedList()" ></a>
-                        <a href="#" class="center fa fa-align-center"  onclick="iCenter()" ></a>
-                        <a href="#" class="justifyfull fa fa-align-justify"  onclick="iJustify()" ></a>
-                        <a href="#" class="justifyleft fa fa-align-left"  onclick="iLeft()" ></a>
-                        <a href="#" class="justifyright fa fa-align-right"  onclick="iRight()" ></a>
+                        <a href="#" class="iimage fa fa-image"  ></a>
+                        <a href="#" class="iol fa fa-list-ol"  ></a>
+                        <a href="#" class="iunol fa fa-list-ul"  ></a>
+                        <a href="#" class="center fa fa-align-center"   ></a>
+                        <a href="#" class="justifyfull fa fa-align-justify"   ></a>
+                        <a href="#" class="justifyleft fa fa-align-left"  ></a>
+                        <a href="#" class="justifyright fa fa-align-right"   ></a>
                     </div>
                     <iframe style="height: 150px;" class="form-control" contenteditable="true"  name="ifr_content" id="ifr_content"></iframe>
 

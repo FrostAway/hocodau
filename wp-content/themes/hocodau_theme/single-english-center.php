@@ -94,7 +94,7 @@
                                                     </div>
                                                     <div class="col-xs-9 col-md-8 col-lg-6 post-content">
                                                         <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                                        <p>
+                                                        <p class="hidden-xs hidden-sm">
                                                             <?php echo short_desc(get_the_ID(), 65)?>
                                                         </p>
                                                     </div>
@@ -163,9 +163,12 @@
                                 </ul>
                             </div>
                             <div class="tab-content">
+                                
                                 <div role="tabpanel" class="" id="reviews">
                                     <!--<div class="fb-comments" data-href="<?php //the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>-->
+                                    
                                     <?php comments_template(); ?>
+                                    
                                 </div>
                             </div>
                         </div>

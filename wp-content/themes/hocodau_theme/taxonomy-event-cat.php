@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="col-xs-9 col-md-8 col-lg-6 post-content">
                                     <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                    <p>
+                                    <p class="hidden-xs hidden-sm">
                                         <?php short_desc(get_the_ID(), 65) ?>
                                     </p>
                                 </div>

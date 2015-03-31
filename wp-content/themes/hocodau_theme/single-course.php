@@ -106,7 +106,7 @@
                             <div class="tab-content">
                                 
                                 <div role="tabpanel" class="" id="reviews">
-                                    <!--<div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>-->
+                                    <!--<div class="fb-comments" data-href="<?php //the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>-->
                                     
                                     <?php comments_template(); ?>
                                     

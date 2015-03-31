@@ -38,7 +38,6 @@
                         </div>
                     </div>
 
-
                     <div class="bar-filter">
                         <div class="row">
                             <form class="" id="filter-form" method="get" action="">
@@ -46,14 +45,14 @@
                                 <div class="col-sm-12 col-lg-3">
                                     <?php include_once 'filter/location.php'; ?>
                                 </div>
-                                <div class="col-sm-12 col-lg-1">
+                                <div class="col-xs-6 col-sm-6 col-lg-1">
                                     <div class="form-group">
                                         <label class="control-label"> Tìm</label>
                                         <div><input class="btn btn-success" type="submit" value="Lọc" /></div>
                                     </div>
                                 </div>
                                 <!--<input type="hidden" name="filter-submit" value="filter-submit" />-->
-                                <div class="col-sm-12 col-lg-1">
+                                <div class="col-xs-6 col-sm-6 col-lg-1">
                                     <?php
                                     global $wp;
                                     $current_url = home_url(add_query_arg(array(), $wp->request))
@@ -76,7 +75,7 @@
                                     </div>
                                     <div class="col-xs-9 col-md-8 col-lg-5 post-content">
                                         <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                        <p>
+                                        <p class="hidden-xs hidden-sm">
                                             <?php echo short_desc(get_the_ID(), 65); ?>
                                         </p>
                                     </div>
