@@ -72,9 +72,9 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>-->
 	<?php
-        if(!current_user_can( 'manage_options' ) && !is_page(256)){
-            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
-        }
+//        if(!current_user_can( 'manage_options' ) && !is_page(256)){
+//            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
+//        }
         ?>
 
 <div id="top-header">

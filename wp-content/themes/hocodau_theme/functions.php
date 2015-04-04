@@ -241,7 +241,22 @@ add_action('admin_footer', function() {
 });
 
 //add role
-add_role('english-center', 'English Center', array(
+
+add_role('english-center-role', 'Trung tâm Tiếng Anh', array(
+    'read' => true,
+    'edit_posts' => true,
+    'delete_posts' => false,
+    'create_posts' => true,
+    'publish_posts' => true
+));
+add_role('english-teacher-role', 'Giảng viên Tiếng Anh', array(
+    'read' => true,
+    'edit_posts' => true,
+    'delete_posts' => false,
+    'create_posts' => true,
+    'publish_posts' => true
+));
+add_role('english-club-role', 'Câu lạc bộ Tiếng Anh', array(
     'read' => true,
     'edit_posts' => true,
     'delete_posts' => false,

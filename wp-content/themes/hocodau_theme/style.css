@@ -81,3 +81,7 @@ ol.commentlist ul.children {
 #editor_bar a{
    font-size: 16px;
 }
+
+.fb_iframe_widget{
+    height: 35px;
+}
