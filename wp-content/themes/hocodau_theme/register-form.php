@@ -66,6 +66,8 @@
                 document.getElementById('avatar_url').value = 'https://graph.facebook.com/response.id/picture?width=140&height=110';
             });
         }
+        
+        
     </script>
     <div class="main-bg"></div>
     <div class="container">
@@ -115,8 +117,6 @@
 
                                 <div id="user_option_role">
 
-                                    
-
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Email</label>
@@ -130,18 +130,20 @@
                                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required="">
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">Giới thiệu</label>
                                     <div class="col-sm-10">
-                                        <textarea name="bio" class="form-control" rows="4" placeholder="Giới thiệu"></textarea>
+<!--                                        <textarea name="bio" class="form-control" rows="4" placeholder="Giới thiệu"></textarea>-->
+                                        <?php wp_editor('', 'bio', array('textarea_rows'=>7)) ?>
                                     </div>
                                 </div>
                                 <input type="hidden" id="avatar_url" name="avatar" />
 
-    <?php
-    global $wp;
-    $current_url = home_url(add_query_arg(array(), $wp->request))
-    ?>
+                                <?php
+                                global $wp;
+                                $current_url = home_url(add_query_arg(array(), $wp->request))
+                                ?>
                                 <input type="hidden" name="current_url" value="<?= $current_url ?>" />
 
                                 <div class="form-group">

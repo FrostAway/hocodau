@@ -71,13 +71,13 @@ function show_elct_box() {
                         <tr>
                             <td>
                                 <label><?php echo $box['label'] ?>: </label>
-                                <button id="add-center-location" class="btn btn-default fa fa-plus" style="">Thêm</button>
+                                <button id="add-center-location" class="button" style=""><span class="dashicons dashicons-plus" style="padding-top: 3px;"></span></button>
                             </td>
                             <td></td>
                         </tr>
                         <?php $citys = get_terms('city-center', array('hide_empty'=>false));?>
                         <?php if($locates != null) foreach ($locates as $key => $lc){ ?>
-                        <tr>
+                        <tr class="area-center-location">
                             <td></td>
                             <td><input size="40" type="text" name="<?php echo $box['name'] ?>[]" value="<?= $lc ?>" /></td>
                             <td>
@@ -88,6 +88,7 @@ function show_elct_box() {
                                     <?php } ?>
                                 </select>
                             </td>
+                            <td><a class="del-center-location" href="#"><span class="dashicons dashicons-no-alt"></span></a></td>
                         </tr>
                         <?php } ?>
                         
@@ -101,7 +102,7 @@ function show_elct_box() {
                                             }
                                            ?>'
                                            +'</select>';
-                                   var text = '<tr class="area-center-location"><td></td><td><input type="text" name="center-location[]" size="40" /></td><td>'+option+'</td><td><a class="del-center-location" hre="#">Xóa</a></td></tr>';
+                                   var text = '<tr class="area-center-location"><td></td><td><input type="text" name="center-location[]" size="40" /></td><td>'+option+'</td><td><a class="del-center-location" href="#"><span class="dashicons dashicons-no-alt"></span></a></td></tr>';
                                    jQuery('#list-table').append(text);
                                    jQuery('.del-center-location').click(function(e){
                                         e.preventDefault();
@@ -109,7 +110,10 @@ function show_elct_box() {
                                     });
                                    return false;
                                }) ;
-                               
+                               jQuery('.course-info .del-center-location').click(function(e){
+                                        e.preventDefault();
+                                        jQuery(this).closest('.area-center-location').html('');
+                               });
                             });
                         </script>
                         <div id="location-box"></div>
@@ -142,11 +146,6 @@ function show_elct_box() {
         ?>
 
         <?php } ?>
-                    <div id="footer-table">
-                        <tr>
-                            <td>Title</td><td>Website</td>
-                        </tr>
-                    </div>
     </table>
     <input type="hidden" name="english-center-information" />
     <?php

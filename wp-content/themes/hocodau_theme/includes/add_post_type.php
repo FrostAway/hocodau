@@ -94,12 +94,12 @@ $post_fields = array(
         'label' => 'Địa điểm',
         'size' => '40'
     ),
-    array(
-        'type' => 'text',
-        'name' => 'course-mana',
-        'label' => 'Giảng viên',
-        'size' => '40'
-    ),
+//    array(
+//        'type' => 'text',
+//        'name' => 'course-mana',
+//        'label' => 'Giảng viên',
+//        'size' => '40'
+//    ),
 //    array(
 //        'type' => 'text',
 //        'name' => 'course-cons',
@@ -312,23 +312,17 @@ function update_my_post($post_id) {
     if (!current_user_can('edit_post', $post_id)) {
         return;
     }
-    if (isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'course' && isset($_POST['course-information'])) {
-        foreach ($post_fields as $box) {
-            update_post_meta($post_id, $box['name'], $_POST[$box['name']]);
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'course' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
         }
-        update_post_meta($post_id, 'eng-center-id', $_POST['eng-center-id']);
-        update_post_meta($post_id, 'eng-teacher-id', $_POST['eng-teacher-id']);
-        update_post_meta($post_id, 'eng-tutor-id', $_POST['eng-tutor-id']);
-        update_post_meta($post_id, 'course-calendar', serialize($_POST['course-calendar']));
     } else {
-        if(isset($_POST['course-information'])){
-        foreach ($post_fields as $box) {
-            delete_post_meta($post_id, $box['name']);
-        }
-        delete_post_meta($post_id, 'eng-center-id');
-        delete_post_meta($post_id, 'eng-teacher-id');
-        delete_post_meta($post_id, 'eng-tutor-id');
-        delete_post_meta($post_id, 'course-calendar');
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
         }
     }
     if (isset($_POST['course-information'])) {

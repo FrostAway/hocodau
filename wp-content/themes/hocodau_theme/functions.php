@@ -268,6 +268,7 @@ add_role('english-club-role', 'Câu lạc bộ Tiếng Anh', array(
 
 function fl_register_script(){
     wp_register_script('user_script', get_template_directory_uri().'/user/user_script.js');
+    wp_localize_script('user_script', 'params', array('course_cat'=>  get_terms('course-cat', array('hide_empty'=>false))));
     wp_enqueue_script('user_script');
 }
 add_action('wp_enqueue_scripts', 'fl_register_script');
@@ -294,7 +295,7 @@ function create_account() {
             add_user_meta($user_id, 'center-mana', $_POST['center-mana']);
             add_user_meta($user_id, 'center-course', $_POST['center-course']);
             add_user_meta($user_id, 'center-reg-addr', $addrs);
-            update_user_meta($user_id, 'description', $_POST['bio']);
+            add_user_meta($user_id, 'mydescription', $_POST['bio']);
             
             wp_redirect(home_url().'/?status=success');
             exit;
@@ -317,6 +318,7 @@ add_action( 'edit_user_profile', 'fl_show_user_field' );
 add_action( 'personal_options_update', 'fl_save_user_field' );
 add_action( 'edit_user_profile_update', 'fl_save_user_field' );
 
+
 function fl_show_user_field($user){
     if($user->roles[0] == 'english-center-role'){
     ?>
@@ -327,7 +329,30 @@ function fl_show_user_field($user){
         </tr>
         <tr>
             <th>Khóa học chủ đạo</th>
-            <td><input type="text" name="center-course" size="40" value="<?php echo get_user_meta($user->ID, 'center-course', true)?>" /></td>
+            <?php
+            $center_course = get_user_meta($user->ID, 'center-course', true);
+            $center_course = ($center_course == null) ? null : $center_course;
+            
+            $term_courses = get_terms('course-cat', array('hide_empty'=>false));
+            if($term_courses != null){
+            ?>
+            <td>
+                <?php foreach ($term_courses as $course){ ?>
+                <?php 
+                $check = '';
+                if(in_array($course->term_id, $center_course)){
+                    $check = 'checked';
+                }
+                        ?>
+                <div>
+                    <label>
+                        <input <?php echo $check; ?> type="checkbox" name="center-course[]" value="<?= $course->term_id ?>" /> 
+                        <?php echo ' '.  $course->name; ?>
+                    </label>
+                </div>
+                <?php } ?>
+            </td>
+            <?php } ?>
         </tr>
         <tr>
             <th>Địa chỉ</th>
@@ -346,7 +371,16 @@ function fl_show_user_field($user){
                 <?php }
             }
             ?>
+                <tr>
+                    <th>Giới thiệu</th>
+                    <td><?php wp_editor(get_user_meta($user->ID, 'mydescription', true), 'mydescription', array('textarea_rows'=>7)); ?></td>
+                </tr>
     </table>
+    
+    <script>
+        jQuery('#your-profile .form-table .user-last-name-wrap').hide();
+        jQuery('#your-profile .form-table .user-description-wrap').hide();
+    </script>
     <?php
     }
 }
@@ -359,6 +393,7 @@ function fl_save_user_field($user_id){
     update_user_meta($user_id, 'center-mana', $_POST['center-mana']);
     update_user_meta($user_id, 'center-course', $_POST['center-course']);
     update_user_meta($user_id, 'center-reg-addr', $_POST['center-reg-addr']);
+    update_user_meta($user_id, 'mydescription', $_POST['mydescription']);
 }
 
 

@@ -1,6 +1,18 @@
 (function ($) {
     $(document).ready(function () {
         $('#default_role').change(function () {
+            
+            var terms = params.course_cat;
+            var list_cats = '';
+            $.each(terms, function(index, value){
+                list_cats += '<div>'+
+                                        '<label>'+
+                                            '<input type="checkbox" class="" value="'+value.term_id+'" name="center-course[]" />'+
+                                            ' '+value.name+
+                                        '</label>'+
+                                        '</div>';
+            });
+            
             if ($(this).val() === 'english-center-role') {
                 $('#user_option_role').html(
                         '<div class="form-group">'+
@@ -18,7 +30,7 @@
                                     '<div class="form-group">'+
                                         '<label class="col-sm-2 control-label">Khóa học chủ đạo</label>'+
                                         '<div class="col-sm-10">'+
-                                            '<input type="text"  name="center-course" class="form-control"  placeholder="Một vài Khóa học chủ đạo" required="">'+
+                                       list_cats+
                                         '</div>'+
                                     '</div>'+
                                     '<div class="form-group">'+
@@ -53,6 +65,8 @@
                 $(this).closest('.row-addr').fadeOut().html('');
             });
         });
+            }else{
+                $('#user_option_role').html('');
             }
         });
 

@@ -100,10 +100,12 @@ if (post_password_required()) {
                     </div>
 
                 <?php endif; ?>
+                    
+                    <?php wp_editor('', 'comment', array('textarea_rows'=>6)); ?>
 
                                                 <!--<p>You can use these tags: <code><?php echo allowed_tags(); ?></code></p>-->
 
-                <div>
+<!--                <div>
                     <textarea  style="display: none;" class="form-control" name="comment" id="comment" cols="58" rows="5" tabindex="4"></textarea>
 
                     <div id="editor_bar">
@@ -195,7 +197,7 @@ if (post_password_required()) {
                             });
                         });
                     </script>
-                </div>
+                </div>-->
 
                 <div>
                     <input style="margin-top: 15px;" class="btn btn-success" name="submit" type="submit" id="submit" tabindex="5" value="Gửi bình luận" />
