@@ -117,7 +117,7 @@
                                                     ?>
                                                     <th class="lb">Trung tâm</th>
                                                     <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
-        <?php } ?>
+                                                <?php } ?>
                                             </tr>
                                             <tr>
                                                 <td class="lb">Thời gian</td>
@@ -141,13 +141,40 @@
                                 <?php edit_post_link("Edit"); ?>
                                 <hr class="clearfix" />
                             <?php endwhile;
-                            wp_reset_query();
+                            wp_reset_query(); ?>
+                                
+                                <script>
+                                    jQuery(document).ready(function () {
+                                        var page = parseInt('<?php echo (get_query_var('paged') == 0) ? 1 : get_query_var('paged'); ?>');
+
+                                        jQuery('#post-load-more').click(function (e) {
+                                            e.preventDefault();
+                                            $('#load_icon').fadeIn(100);
+                                            jQuery.ajax({
+                                                url: '<?php echo admin_url('admin-ajax.php') ?>',
+                                                type: 'POST',
+                                                data: {
+                                                    action: 'load_more_post',
+                                                    page: page
+                                                },
+                                                success: function (data) {
+                                                    jQuery('.main-box .posts').append(data);
+                                                    $('#load_icon').fadeOut(200);
+                                                }
+                                            });
+                                            page = page+1;
+                                        });
+                                    });
+                                </script>
+                                
+                                <?php
                         else: ?>
                             <h3>Không có bài viết nào</h3>
-<?php endif; ?>
-
+                        <?php endif; ?>
+                            
                         <div class="clearfix"></div>
                     </div>
+                    <a href="#" id="post-load-more" class="btn btn-success">Xem Thêm</a> <img id="load_icon" src="<?php echo get_template_directory_uri() ?>/assets/images/load.gif" width="50" height="50" />
                 </div>
                 <!-- end main box -->
 
