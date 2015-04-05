@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     
-                    <?php include_once 'includes/filter.php'; ?>
+                    <?php include_once 'filter/filter_bar.php'; ?>
                     
                     <div class="posts">
                         <?php if(have_posts()): while(have_posts()): the_post(); ?>
@@ -134,6 +134,20 @@
                         <?php endif; ?>
 
                         <div class="clearfix"></div>
+                        <div class="pagination">
+                                <?php
+                                global $wp_query;
+
+                                $big = 999999999; // need an unlikely integer
+
+                                echo paginate_links(array(
+                                    'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                                    'format' => '?paged=%#%',
+                                    'current' => ( get_query_var('paged') ) ? get_query_var('paged') : 1,
+                                    'total' => $wp_query->max_num_pages
+                                ));
+                                ?>
+                            </div> 
                     </div>
                 </div>
                 <!-- end main box -->

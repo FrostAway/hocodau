@@ -53,9 +53,15 @@
                 
                 <button type="button" class="btn btn-success" id="btn-login-form">Đăng nhập</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                <?php
+                global $wp;
+                $current_url = home_url(add_query_arg(array(), $wp->request))
+                ?>
                 <script>
                     jQuery(document).ready(function () {
                         jQuery('#btn-login-form').click(function () {
+                            var curr_url = '<?php echo $current_url; ?>';
+                            var home = '<?php echo $current_url; ?>';
                             jQuery.ajax({
                                 type: 'POST',
                                 dataType: 'json',
@@ -71,7 +77,7 @@
                                     } else {
                                         jQuery('#login_status').html(data.mess);
                                         setTimeout(function () {
-                                            window.location.reload();
+                                            window.location.href = home;
                                         }, 1000);
                                     }
                                 }

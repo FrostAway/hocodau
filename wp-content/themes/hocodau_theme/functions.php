@@ -266,6 +266,11 @@ add_role('english-club-role', 'Câu lạc bộ Tiếng Anh', array(
 
 //register
 
+function fl_register_script(){
+    wp_register_script('user_script', get_template_directory_uri().'/user/user_script.js');
+    wp_enqueue_script('user_script');
+}
+add_action('wp_enqueue_scripts', 'fl_register_script');
 add_action('init', 'create_account');
 
 function create_account() {
@@ -274,17 +279,88 @@ function create_account() {
         $email = $_POST['email'];
         $pass = $_POST['password'];
         $bio = $_POST['bio'];
-    }
-    if (!username_exists($user) && !email_exists($email)) {
+        $role = $_POST['default_role'];
+        $curr_url = $_POST['current_url'];
+        
+        $addrs = $_POST['center-reg-addr'];
+        
+        if (!username_exists($user) && !email_exists($email)) {
         $user_id = wp_create_user($user, $pass, $email);
         if (!is_wp_error($user_id)) {
             $nuser = new WP_User($user);
-            $nuser->set_role('author');
-            wp_redirect(home_url());
+            $nuser->set_role($role);
+            
+            update_user_meta($user_id, 'first_name', $_POST['first-name']);
+            add_user_meta($user_id, 'center-mana', $_POST['center-mana']);
+            add_user_meta($user_id, 'center-course', $_POST['center-course']);
+            add_user_meta($user_id, 'center-reg-addr', $addrs);
+            update_user_meta($user_id, 'description', $_POST['bio']);
+            
+            wp_redirect(home_url().'/?status=success');
+            exit;
+        }else{
+            wp_redirect($curr_url.'/?status=error');
             exit;
         }
+    }else{
+        wp_redirect($curr_url.'/?status=exist');
+        exit;
+    }
+    }
+    
+}
+
+//user field
+add_action( 'show_user_profile', 'fl_show_user_field' );
+add_action( 'edit_user_profile', 'fl_show_user_field' );
+
+add_action( 'personal_options_update', 'fl_save_user_field' );
+add_action( 'edit_user_profile_update', 'fl_save_user_field' );
+
+function fl_show_user_field($user){
+    if($user->roles[0] == 'english-center-role'){
+    ?>
+    <table class="form-table">
+        <tr>
+            <th>Tên giám đốc</th>
+            <td><input type="text" name="center-mana" size="40" value="<?php echo get_user_meta($user->ID, 'center-mana', true) ?>" /></td>
+        </tr>
+        <tr>
+            <th>Khóa học chủ đạo</th>
+            <td><input type="text" name="center-course" size="40" value="<?php echo get_user_meta($user->ID, 'center-course', true)?>" /></td>
+        </tr>
+        <tr>
+            <th>Địa chỉ</th>
+            <td></td>
+        </tr>
+         <?php
+            $addrs = get_user_meta($user->ID, 'center-reg-addr', true);
+            $addrs = ($addrs == null) ? null : $addrs;
+            if($addrs != null){
+                $i = 1;
+                foreach ($addrs as $addr){ ?>
+                <tr>
+                    <th>Cơ sở <?php echo $i ?></th>
+                    <td><input type="text" name="center-reg-addr[]" value="<?php echo $addr ?>" /></td>
+                </tr>
+                <?php }
+            }
+            ?>
+    </table>
+    <?php
     }
 }
+
+function fl_save_user_field($user_id){
+    if ( !current_user_can( 'edit_user', $user_id ) ){
+		return false;
+    }
+	
+    update_user_meta($user_id, 'center-mana', $_POST['center-mana']);
+    update_user_meta($user_id, 'center-course', $_POST['center-course']);
+    update_user_meta($user_id, 'center-reg-addr', $_POST['center-reg-addr']);
+}
+
 
 //load more comment
 function load_more_comment() {
@@ -475,6 +551,81 @@ add_action('wp_ajax_nopriv_load_more_post', 'iz_load_more_post');
 function iz_load_more_post(){
     $page = $_POST['page'];
      $posts = query_posts(array('post_type'=>'course', 'offset'=>8*$page, 'posts_per_page'=>8));
+    global $wp_query;   
+    if($page <= $wp_query->found_posts){  
+    while(have_posts()): the_post();
+    ?>
+    <div class="post row">
+        <div class="col-xs-3 col-md-4 col-lg-2">
+            <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
+        </div>
+        <div class="col-xs-9 col-md-8 col-lg-6 post-content">
+            <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+            <p class="hidden-xs hidden-sm">
+                <?php echo short_desc(get_the_ID(), 65); ?>
+            </p>
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-4 ">
+            <table class="post-info">
+                <tr>
+                    <td class="lb ">Giá</td>
+                    <td class="info price"><?= unit(get_post_meta(get_the_ID(), 'course-price', true)); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Đánh giá</td>
+                    <td class="info">
+                        <div class="rating">
+                            <div title="5.00 / 5 điểm" class="star-rating">
+                                <span>
+                                    <strong class="num"><?= cal_rate(get_the_ID()) ?></strong> trên 5			
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <?php
+                    $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
+                    if ($center_id != 0) {
+                        ?>
+                        <th class="lb">Trung tâm</th>
+                        <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                    <?php } ?>
+                </tr>
+                <tr>
+                    <td class="lb">Thời gian</td>
+                    <td class="info"><?= wp_trim_words(get_post_meta(get_the_ID(), 'course-time', true), 2, ''); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Địa điểm</td>
+                    <td class="info">
+                        <?php
+                        $terms = get_the_terms(get_the_ID(), 'city-center');
+                        if ($terms)
+                            foreach ($terms as $term) {
+                                echo '<div>' . $term->name . '</div>';
+                            }
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <?php edit_post_link("Edit"); ?>
+    <hr class="clearfix" />
+    <?php
+    endwhile;    wp_reset_query();
+    }else{
+        echo 'no post found';
+    }
+    die();
+}
+
+add_action('wp_ajax_load_more_post_eng_id', 'iz_load_more_post_eng_id');
+add_action('wp_ajax_nopriv_load_more_post_eng_id', 'iz_load_more_post_eng_id');
+function iz_load_more_post_eng_id(){
+    $page = $_POST['page'];
+     query_posts(array('post_type' => 'course', 'meta_key' => 'eng-center-id', 'meta_value' => $_POST['eng_id'],'offset'=>5*$page, 'posts_per_page'=>5));
     global $wp_query;   
     if($page <= $wp_query->found_posts){  
     while(have_posts()): the_post();

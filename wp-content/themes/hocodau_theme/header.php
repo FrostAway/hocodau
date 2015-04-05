@@ -75,6 +75,7 @@
 //        if(!current_user_can( 'manage_options' ) && !is_page(256)){
 //            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
 //        }
+        
         ?>
 
 <div id="top-header">
@@ -99,6 +100,15 @@
 
 	<div id="header">
             <div class="container">
+                
+                <?php
+                if(isset($_GET['status']) && $_GET['status'] == 'success'){ ?>
+                    <script>
+                    alert('Bạn đã đăng ký Tài khoản thành công!')
+                    </script>
+                <?php }
+                ?>
+                
                 <div class="row">
                     <div id="logo" class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
                         <a href="<?php echo home_url() ?>"><img src="<?= get_option('home-logo') ?>"  /></a>
