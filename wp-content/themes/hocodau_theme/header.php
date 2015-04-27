@@ -7,6 +7,8 @@
 	<?php if (is_search()) { ?>
 	   <meta name="robots" content="noindex, nofollow" /> 
 	<?php } ?>
+           
+           <link href="<?php echo get_template_directory_uri() ?>/assets/images/favio.jpg" rel="shortcut icon">
 
 	<title>
 		   <?php
@@ -29,7 +31,7 @@
 		   ?>
 	</title>
 	
-	<link rel="shortcut icon" href="/favicon.ico">
+	
 	
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>">
 	
@@ -75,7 +77,7 @@
 //        if(!current_user_can( 'manage_options' ) && !is_page(256)){
 //            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
 //        }
-        
+if(wp_mail('vanlam0705@gmail.com', 'test wp mail', 'test some thing with wp mail')) echo '<script>alert("ok")</script>';
         ?>
 
 <div id="top-header">

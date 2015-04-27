@@ -17,7 +17,9 @@ function create_post_type_elct() {
         'supports' => array(
             'title', 'thumbnail', 'editor', 'excerpt', 'comments'
         ),
-        'taxonomies' => array('post_tag')
+        'taxonomies' => array('post_tag'),
+        'capability_type' => 'english-center',
+        'map_meta_cap' => true
     ));
 }
 

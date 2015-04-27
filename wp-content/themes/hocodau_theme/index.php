@@ -80,7 +80,7 @@
                     </div>
                     <?php // include_once 'includes/filter.php'; ?>
                     <?php include_once 'filter/filter_bar.php'; ?>
-                    <div class="posts">
+                    <div class="posts" id="list-posts">
                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
                                 <div class="post row">
                                     <div class="col-xs-3 col-md-4 col-lg-2">
@@ -158,7 +158,7 @@
                                                     page: page
                                                 },
                                                 success: function (data) {
-                                                    jQuery('.main-box .posts').append(data);
+                                                    jQuery('#list-posts').append(data);
                                                     $('#load_icon').fadeOut(200);
                                                 }
                                             });

@@ -242,6 +242,7 @@ add_action('admin_footer', function() {
 
 //add role
 
+function fl_add_role(){
 add_role('english-center-role', 'Trung tâm Tiếng Anh', array(
     'read' => true,
     'edit_posts' => true,
@@ -263,6 +264,8 @@ add_role('english-club-role', 'Câu lạc bộ Tiếng Anh', array(
     'create_posts' => true,
     'publish_posts' => true
 ));
+}
+register_activation_hook(__FILE__, 'fl_add_role');
 
 //register
 
@@ -287,7 +290,15 @@ function create_account() {
         
         if (!username_exists($user) && !email_exists($email)) {
         $user_id = wp_create_user($user, $pass, $email);
+        
         if (!is_wp_error($user_id)) {
+            $key = md5($user_id.'_'.$pass); $keylink = home_url().'/?verify-user='.$key;
+            add_user_meta($user_id, 'key-verify', $key);
+            
+            wp_mail($email, 
+                    'Xác nhận Email đăng ký Hocodau.vn', 
+                    'Chào mừng bạn đến với Hocodau.vn, Xin hãy <a href="'.$keylink.'">xác nhận email</a> để đăng nhập tài khoản trên hocodau.vn',
+                    'From: Hocodau.vn <hocodau@gmail.com>'."\r\n");
             $nuser = new WP_User($user);
             $nuser->set_role($role);
             
@@ -733,6 +744,51 @@ function iz_load_more_post_eng_id(){
 
 
 include_once 'user/ajax-login.php';
+
+add_action('admin_menu', 'fl_remove_menu_items');
+function fl_remove_menu_items(){
+    global $current_user;
+    if($current_user->roles[0] == 'english-center-role'){
+        remove_menu_page('edit.php?post_type=teacher');
+        remove_menu_page('edit.php?post_type=english-club');
+        remove_menu_page('edit.php?post_type=event');
+        remove_menu_page('edit.php?post_type=english-tutor');
+    }
+}
+
+add_action('admin_init', 'iz_add_role_cap', 999);
+function iz_add_role_cap(){
+    $roles = array('english-center-role');
+    foreach ($roles as $the_role){
+        $role = get_role($the_role);
+        $role->add_cap('read');
+        $role->add_cap('read_english-center');
+        $role->add_cap( 'read_private_english-centers' );
+	$role->add_cap( 'edit_english-center' );
+	$role->add_cap( 'edit_english-centers' );
+	$role->add_cap( 'edit_others_english-centers' );
+	$role->add_cap( 'edit_published_english-centers' );
+	$role->add_cap( 'publish_english-centers' );
+	$role->add_cap( 'delete_others_english-centers' );
+	$role->add_cap( 'delete_private_english-centers' );
+	$role->add_cap( 'delete_published_english-centers' );
+    }
+}
+
+
+function posts_for_current_author($query) {
+	global $pagenow;
+
+	if( 'edit.php' != $pagenow || !$query->is_admin )
+	    return $query;
+
+	if( !current_user_can( 'manage_options' ) ) {
+		global $user_ID;
+		$query->set('author', $user_ID );
+	}
+	return $query;
+}
+add_filter('pre_get_posts', 'posts_for_current_author');
 ?>
 
     
