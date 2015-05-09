@@ -23,7 +23,7 @@
         <li><a data-type="english-center" href="#">Trung tâm</a></li>
         <li><a data-type="english-club" href="#">Câu lạc bộ</a></li>
     </ul>
-    <input type="text" name="s" class="form-control" placeholder="Tìm kiếm" aria-describedby="basic-addon2" />
+    <input type="text" name="s" class="form-control" placeholder="<?php if(is_home()) echo 'Tìm kiếm tất cả'; else echo 'Tìm kiếm trong mục này'; ?>" aria-describedby="basic-addon2" />
     <input type="hidden" id="search-option-ap" name="post_type" value="course" />
     <span  class="input-group-addon" id="basic-addon2">Tìm kiếm</span>
     <input style="display: none;" id="search-submit" type="submit" name="search-submit" value="search-submit" />

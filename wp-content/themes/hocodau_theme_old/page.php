@@ -8,7 +8,9 @@
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 column-right">                       
 
                 <?php if (have_posts()): while (have_posts()): the_post(); ?>
-                
+                <?php if(is_page(256)){
+				 exit();
+				} ?>
                         <div id="post" class="clearfix">
                             <?php the_breadcrumb(); ?>
 

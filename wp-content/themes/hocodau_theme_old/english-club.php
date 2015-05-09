@@ -16,7 +16,7 @@
                 <div class="main-box">
                     <div class="box-title">
                 <?php 
-                $args = array('post_type'=>'english-club', 'posts_per_page'=>10);
+                $args = array('post_type'=>'english-club', 'posts_per_page'=>10,'paged'=>( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1);
                 if(isset($_GET['dia-diem'])){
                     $prov = $_GET['dia-diem'];
                     $args['tax_query'] = array(
@@ -43,16 +43,16 @@
                     <div class="posts">
                         <?php if(have_posts()): while(have_posts()): the_post(); ?>
                             <div class="post row">
-                                <div class="col-sm-12 col-md-4 col-lg-2">
+                                <div class="col-xs-3 col-md-4 col-lg-2">
                                     <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
                                 </div>
-                                <div class="col-sm-12 col-md-8 col-lg-5 post-content">
+                                <div class="col-xs-9 col-md-8 col-lg-5 post-content">
                                     <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                    <p>
+                                    <p class="hidden-xs hidden-sm">
                                         <?php echo short_desc(get_the_ID(), 65);?>
                                     </p>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-5 ">
+                                <div class="col-xs-12 col-md-12 col-lg-5 ">
                                     <table class="post-info">
                                         <tr>
                                             <td class="lb">Đối tượng</td>
@@ -91,7 +91,25 @@
                             </div>
                             <?php edit_post_link('Edit'); ?>
                             <hr class="clearfix" />
-                        <?php endwhile; wp_reset_query(); else: ?>
+                       <?php endwhile; ?>
+                            
+                            <div class="pagination">
+                                <?php
+                                global $wp_query;
+
+                                $big = 999999999; // need an unlikely integer
+
+                                echo paginate_links(array(
+                                    'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                                    'format' => '?paged=%#%',
+                                    'current' => ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1,
+                                    'total' => $wp_query->max_num_pages
+                                ));
+                                ?>
+                            </div>    
+                            
+                         <?php   wp_reset_query();
+                        else: ?>
                             <h3>Không có bài viết nào</h3>
                         <?php endif; ?>
 

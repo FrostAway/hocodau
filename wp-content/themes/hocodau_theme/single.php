@@ -11,9 +11,10 @@
                 <?php if (have_posts()): while (have_posts()): the_post(); ?>
                 
                         <div id="post" class="clearfix">
-                            <?php the_breadcrumb(); ?>
-
-                            <div class="col-sm-12 col-lg-5">
+                            <div class="breadcrumb"><?php echo yoast_breadcrumb(); ?></div>
+							<?php if(has_post_thumbnail()){?>
+							<div class="row">
+                            <div class="col-sm-12 col-lg-3">
                                 <!--<img class="post-thumbnail img-responsive" src="<?php //bloginfo('template_directory')  ?>/assets/images/body/anh-trang-review-17.jpg" />-->
                                 <?php
                                 echo get_the_post_thumbnail(get_the_ID(), 'single', array(
@@ -21,12 +22,22 @@
                                 ))
                                 ?>
                             </div>
-                            <div class="col-sm-12 col-lg-7 content">
+                            <div class="col-sm-12 col-lg-9 content">
                                 <h3 class="content-title"><?php the_title(); ?></h3>
                                 <div class="time"><?php the_time('l') ?>, ngày <?php the_time('d') ?> tháng <?php the_time('m') ?> năm <?php the_time('Y') ?></div>
-
-                                <?php the_content(); ?>
                             </div>
+							</div>
+							<?php }else{ ?>
+							<div class="content" style="padding: 0 20px;">
+                                <h3 class="content-title"><?php the_title(); ?></h3>
+                                <div class="time"><?php the_time('l') ?>, ngày <?php the_time('d') ?> tháng <?php the_time('m') ?> năm <?php the_time('Y') ?></div>
+                            </div>
+							<?php } ?>
+							<div class="content" style="padding: 20px;">
+								<?php the_content(); ?>
+                                <div style="margin-top: 20px;" class="fb-like" data-href="<?php echo get_post_permalink();  ?>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+							</div>
+                            
                         </div>
                         <!-- end post -->
 

@@ -25,16 +25,16 @@
                     <div class="posts">
                         <?php if(have_posts()): while(have_posts()): the_post(); ?>
                             <div class="post row">
-                                <div class="col-sm-12 col-md-4 col-lg-2">
+                                <div class="col-xs-3 col-md-4 col-lg-2">
                                     <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
                                 </div>
-                                <div class="col-sm-12 col-md-8 col-lg-6 post-content">
+                                <div class="col-xs-9 col-md-8 col-lg-6 post-content">
                                     <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                    <p>
+                                    <p class="hidden-xs hidden-sm">
                                         <?php short_desc(get_the_ID(), 65) ?>
                                     </p>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-4 ">
+                                <div class="col-xs-12 col-md-12 col-lg-4 ">
                                     <table class="post-info">
                                         <tr>
                                             <td class="lb ">- Mức phí</td>

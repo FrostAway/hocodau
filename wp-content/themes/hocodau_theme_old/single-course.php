@@ -11,7 +11,7 @@
                 <?php if (have_posts()): while (have_posts()): the_post(); ?>
                 
                         <div id="post" class="clearfix">
-                            <?php the_breadcrumb(); ?>
+                            <div class="breadcrumb"><?php echo yoast_breadcrumb(); ?></div>
 
                             <div class="col-sm-12 col-lg-5">
                                 <?php
@@ -44,13 +44,27 @@
                                         <td><?php echo get_post_meta(get_the_ID(), 'course-time', true) ?></td>
                                     </tr>
                                     <tr class="">
-                                        <td class="cl1">Địa điểm</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), 'course-location', true); ?></td>
+                                        <?php
+                                            $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
+                                            if($center_id != 0){ ?>
+                                            <td class="cl1">Trung tâm</td>
+                                            <td><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                                            <?php } ?>
                                     </tr>
                                     
                                     <tr>
+                                        <?php 
+                                        $calendars = unserialize(get_post_meta(get_the_ID(), 'course-calendar', true));
+                                        $calendars = ($calendars == null) ? null : $calendars;
+                                        if($calendars != null){
+                                        ?>
                                         <td class="cl1">Lịch học</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), 'course-cons', true) ?></td>
+                                        <td>
+                                            <?php $i=1; foreach ($calendars as $cal){ ?>
+                                            <div>Địa chỉ <?= $i ?>: <?php echo $cal; $i++ ?></div>
+                                            <?php } ?>
+                                        </td>
+                                        <?php } ?>
                                     </tr>
                                     
                                 </table>
@@ -87,15 +101,20 @@
                                     <li role="presentation" class="active">
                                         <a href="#reviews" aria-control="reviews" role="tab" data-toggle="tab">Đánh giá</a>
                                     </li>
+                                    <li role="presentation">
+                                        <a href="#facebook_comments" aria-control="facebook_comments" role="tab" data-toggle="tab" >Facebook</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="tab-content">
                                 
-                                <div role="tabpanel" class="" id="reviews">
-                                    <!--<div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>-->
+                                <div role="tabpanel" class="tab-pane fade in active" id="reviews">
                                     
                                     <?php comments_template(); ?>
                                     
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="facebook_comments">
+                                    <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
                                 </div>
                             </div>
                         </div>

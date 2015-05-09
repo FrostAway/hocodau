@@ -1,7 +1,12 @@
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 column-left">
     <div class="bar-course hidden-xs">
-        <a href="<?php echo home_url() ?>?course-cat=tat-ca-khoa-hoc"><h3 class="">Các Khóa học</h3></a>
-        <?php wp_nav_menu(array('theme_location'=>'course-menu', 'container'=>'', 'menu_class'=>'list-unstyled')); ?>
+        <a href="<?php echo home_url() ?>/course-cat/tat-ca-khoa-hoc"><h3 class="">Các Khóa học</h3></a>
+            <?php
+            wp_reset_query();            wp_reset_postdata();
+            
+                wp_nav_menu(array('theme_location'=>'course-menu-2', 'container'=>'', 'menu_class'=>'list-unstyled')); 
+            
+            ?>
     </div>
 
     <div class="bar-review hidden-xs">
@@ -14,7 +19,7 @@
         </ul>
     </div>
     
-    <div class="bar-review hidden-xs">
+    <div class="bar-review hidden-xs" style="display: none;">
         <h3>Gia sư Tiếng Anh</h3>
         <?php wp_nav_menu(array('theme_location'=>'tutor-menu', 'container'=>'', 'menu_class'=>'list-unstyled')); ?>
     </div>
@@ -25,35 +30,22 @@
     </div>
 
     <div class="bar-boxs">
-        <?php $page1 = get_page(41);  ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-1.png" />
-            <h3><a href="<?= $page1->guid ?>"><?php echo $page1->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= short_desc($page1->post_content, 30); ?>
-            </p>
-        </div>
-        
-        <?php $page2 = get_page(44); ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-2.png" />
-            <h3><a href="<?= $page2->guid ?>"><?php echo $page2->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= short_desc($page2->post_content, 30) ?>
-            </p>
-        </div>
-        
-        <?php $page3 = get_page(46); ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-3.png" />
-            <h3><a href="<?= $page3->guid ?>"><?php echo $page3->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= short_desc($page3->post_content, 30) ?>
-            </p>
+        <div class="facbook-like-box" style="width: 100%;">
+            <div class="fb-page" 
+                 style="
+                 transform: scale(0.94); 
+                 -moz-transform: scale(0.94);
+                 margin-left: -9px;
+                 " 
+                 data-href="https://www.facebook.com/hoctienganhodauvn"  data-hide-cover="false" data-show-facepile="true" data-show-posts="false">
+                <div class="fb-xfbml-parse-ignore">
+                    <blockquote cite="https://www.facebook.com/hoctienganhodauvn">
+                        <a href="https://www.facebook.com/hoctienganhodauvn">Hocodau.vn - Học tiếng Anh như thế nào, ở đâu ?</a>
+                    </blockquote>
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
 <!-- end left column -->

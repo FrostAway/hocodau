@@ -1,3 +1,4 @@
+
 <?php get_header(); ?>
 
 <?php setPostViews(get_the_ID()) ?>
@@ -66,27 +67,27 @@
                             </div>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade in active" id="description">
-                                   
+
                                     <p>
                                         <?php the_content(); ?>
                                     </p>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="courses">
                                     <h3>Danh sách khóa học</h3>
-                                    <?php query_posts(array('post_type'=>'course', 'meta_key'=>'eng-teacher-id', 'meta_value'=>  get_the_ID())); ?>
+                                    <?php query_posts(array('post_type' => 'course', 'meta_key' => 'eng-teacher-id', 'meta_value' => get_the_ID())); ?>
                                     <div class="posts">
                                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
                                                 <div class="post row">
-                                                    <div class="col-sm-12 col-md-4 col-lg-2">
+                                                    <div class="col-xs-3 col-md-4 col-lg-2">
                                                         <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-8 col-lg-6 post-content">
+                                                    <div class="col-xs-9 col-md-8 col-lg-6 post-content">
                                                         <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                                        <p>
-                                                            <?php echo short_desc(get_the_ID(), 65)?>
+                                                        <p class="hidden-xs hidden-sm">
+                                                            <?php echo short_desc(get_the_ID(), 65) ?>
                                                         </p>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-4 ">
+                                                    <div class="col-xs-12 col-md-12 col-lg-4 ">
                                                         <table class="post-info">
                                                             <tr>
                                                                 <td class="lb ">Giá</td>
@@ -104,54 +105,82 @@
                                                                     </div>
                                                                 </td>
                                                             </tr>
+                                                            <tr class="">
+                                                                <?php
+                                                                $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
+                                                                if ($center_id != 0) {
+                                                                    ?>
+                                                                    <th class="lb">Trung tâm</th>
+                                                                    <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                <?php } ?>
+                                                            </tr>
                                                             <tr>
                                                                 <td class="lb">Thời gian</td>
-                                                                <td class="info"><?= get_post_meta(get_the_ID(), 'course-time', true); ?></td>
+                                                                <td class="info"><?= wp_trim_words(get_post_meta(get_the_ID(), 'course-time', true), 2); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="lb">Địa điểm</td>
-                                                                <td class="info"><?= get_post_meta(get_the_ID(), 'course-location', true); ?></td>
+                                                                <td class="info">
+                                                                    <?php
+                                                                    $terms = get_the_terms(get_the_ID(), 'city-center');
+                                                                    if ($terms)
+                                                                        foreach ($terms as $term) {
+                                                                            echo '<div>' . $term->name . '</div>';
+                                                                        }
+                                                                    ?>
+                                                                </td>
                                                             </tr>
                                                         </table>
                                                     </div>
                                                 </div>
                                                 <hr class="clearfix" />
-                                            <?php endwhile;
+                                            <?php
+                                            endwhile;
                                             wp_reset_query();
-                                        else: ?>
+                                        else:
+                                            ?>
                                             <h3>Không có bài viết nào</h3>
-                                        <?php endif; ?>
+        <?php endif; ?>
 
                                         <div class="clearfix"></div>
                                     </div>
 
                                 </div>
                             </div>
-                            
-                            
+
+
                             <div role="tabpanel">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#reviews" aria-control="reviews" role="tab" data-toggle="tab">Đánh giá</a>
                                     </li>
+                                    <li role="presentation">
+                                        <a href="#facebook_comments" aria-control="facebook_comments" role="tab" data-toggle="tab" >Facebook</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="tab-content">
-                                <div role="tabpanel" class="" id="reviews">
+                                
+                                <div role="tabpanel" class="tab-pane fade in active" id="reviews">
+                                    
                                     <?php comments_template(); ?>
-                                    <!--<div class="fb-comments" data-href="<?php //the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>-->
+                                    
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="facebook_comments">
+                                    <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
                                 </div>
                             </div>
                         </div>
-                    <?php endwhile;
+                    <?php
+                    endwhile;
                 else:
                     ?>
                     <h3>Không có bài viết nào</h3>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
-            
-            
-            <?php get_sidebar('left'); ?>
+
+
+<?php get_sidebar('left'); ?>
 
         </div>
     </div>

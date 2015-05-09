@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="col-sm-12 col-md-8 col-lg-6 post-content">
                                     <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                    <p>
+                                    <p class="hidden-xs hidden-sm">
                                         <?php echo short_desc(get_the_ID(), 60); ?>
                                     </p>
                                 </div>
@@ -150,12 +150,20 @@
                                     <li role="presentation" class="active">
                                         <a href="#reviews" aria-control="reviews" role="tab" data-toggle="tab">Đánh giá</a>
                                     </li>
+                                    <li role="presentation">
+                                        <a href="#facebook_comments" aria-control="facebook_comments" role="tab" data-toggle="tab" >Facebook</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="tab-content">
-                                <div role="tabpanel" class="" id="reviews">
-                                    <!--<div class="fb-comments" data-href="<?php //the_permalink(); ?>" data-width="775" data-numposts="5" data-colorscheme="light"></div>-->
+                                
+                                <div role="tabpanel" class="tab-pane fade in active" id="reviews">
+                                    
                                     <?php comments_template(); ?>
+                                    
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="facebook_comments">
+                                    <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
                                 </div>
                             </div>
                         </div>

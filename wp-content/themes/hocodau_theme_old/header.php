@@ -7,13 +7,24 @@
 	<?php if (is_search()) { ?>
 	   <meta name="robots" content="noindex, nofollow" /> 
 	<?php } ?>
+           
+           <link href="<?php echo get_template_directory_uri() ?>/assets/images/favio.jpg" rel="shortcut icon">
 
 	<title>
 		   <?php
 		      if (function_exists('is_tag') && is_tag()) {
 		         single_tag_title("Tag for &quot;"); echo '&quot; - '; }
-		      elseif (is_archive()) {
-		         wp_title(''); echo ' - '; }
+		      elseif (is_archive() || is_tax()) {
+		         if(is_tax('course-cat')){
+                             if(term_description() == ''){
+                                 wp_title(''); echo ' - ';
+                             }else{
+                             echo wp_trim_words(term_description(), 50).' - ';
+                             }
+                         }elseif(is_archive()){
+                          wp_title(''); echo ' - '; 
+                         }
+                      }
 		      elseif (is_search()) {
 		         echo 'Search for &quot;'.wp_specialchars($s).'&quot; - '; }
 		      elseif (!(is_404()) && (is_single()) || (is_page())) {
@@ -29,7 +40,7 @@
 		   ?>
 	</title>
 	
-	<link rel="shortcut icon" href="/favicon.ico">
+	
 	
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>">
 	
@@ -37,14 +48,15 @@
         
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/editor_bar.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/style.css" />
 
 
         <script src="<?php bloginfo('template_directory') ?>/assets/js/jquery.min.js"></script>
         <script src="<?php bloginfo('template_directory') ?>/assets/js/jquery-ui.min.js"></script>
+        
         <script src="<?php bloginfo('template_directory') ?>/assets/js/slide.js"></script>
         <script src="<?php bloginfo('template_directory') ?>/assets/js/custom.js"></script>
-        <script src="<?php bloginfo('template_directory') ?>/assets/js/form_editor.js"></script>
 
 	<?php if ( is_singular() ) wp_enqueue_script('comment-reply'); ?>
 	
@@ -71,11 +83,10 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>-->
 	<?php
-//        if(!current_user_can( 'manage_options' ) && !is_page(137)){
-//            echo '<script>window.location.href="'.  get_page_link(137).'"</script>';
-//        }else{
-//            
+//        if(!current_user_can( 'manage_options' ) && !is_page(256)){
+//            echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
 //        }
+
         ?>
 
 <div id="top-header">
@@ -100,6 +111,25 @@
 
 	<div id="header">
             <div class="container">
+                
+                <?php
+                if(isset($_GET['status']) && $_GET['status'] == 'success'){ ?>
+                    <script>
+                    alert('Bạn đã đăng ký Tài khoản thành công! Vui lòng kích xác nhận Email để đăng nhập')
+                    jQuery(document).ready(function(){
+                        history.pushState('data', '', '<?php echo home_url(); ?>');
+                    });
+                    </script>
+                <?php }
+                if(isset($_GET['verify-user']) && $_GET['verify-user'] != ''){
+                   ?>
+                    <script>
+                    alert('Bạn đã xác nhận Email thành công, bây giờ bạn có thể đăng nhập!');
+                    </script>
+                    <?php
+                }
+                ?>
+                
                 <div class="row">
                     <div id="logo" class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
                         <a href="<?php echo home_url() ?>"><img src="<?= get_option('home-logo') ?>"  /></a>

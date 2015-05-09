@@ -13,7 +13,7 @@ function create_post_type_tutor() {
         'menu_position' => 5,
         'menu_icon' => 'dashicons-id-alt',
         'rewrite' => array(
-            'slug' => 'gia-su',
+            'slug' => 'gia-su-ta',
             'with_front' => FALSE,
         ),
         'supports' => array(

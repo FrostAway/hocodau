@@ -10,6 +10,16 @@ function removeHeadLinks() {
     remove_action('wp_head', 'wlwmanifest_link');
 }
 
+function iz_add_support(){
+   add_theme_support('title-tag');
+    add_theme_support('post-thumbnails'); 
+    if(!is_admin()){
+        show_admin_bar(false);
+    }
+}
+
+add_action('after_setup_theme', 'iz_add_support');
+
 wp_enqueue_script('jquery-ui-datepicker');
 wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
 
@@ -39,6 +49,7 @@ if (function_exists('register_nav_menu')) {
     register_nav_menu('review-menu', 'Review Menus');
     register_nav_menu('event-menu', 'Event Menus');
     register_nav_menu('tutor-menu', 'Tutor Menus');
+	register_nav_menu('share-menu', 'Share Menus');
 }
 
 add_action('init', 'register_tax_city');
@@ -269,9 +280,18 @@ register_activation_hook(__FILE__, 'fl_add_role');
 
 //register
 
+add_action('after_setup_theme', 'remove_admin_bar');
+
+function remove_admin_bar() {
+if (!current_user_can('administrator') && !is_admin()) {
+  show_admin_bar(false);
+}
+}
+
+
 function fl_register_script(){
     wp_register_script('user_script', get_template_directory_uri().'/user/user_script.js');
-    wp_localize_script('user_script', 'params', array('course_cat'=>  get_terms('course-cat', array('hide_empty'=>false))));
+	 wp_localize_script('user_script', 'params', array('course_cat'=>  get_terms('course-cat', array('hide_empty'=>false))));
     wp_enqueue_script('user_script');
 }
 add_action('wp_enqueue_scripts', 'fl_register_script');
@@ -292,8 +312,8 @@ function create_account() {
         $user_id = wp_create_user($user, $pass, $email);
         
         if (!is_wp_error($user_id)) {
-            $key = md5($user_id.'_'.$pass); $keylink = home_url().'/?verify-user='.$key;
-            add_user_meta($user_id, 'key-verify', $key);
+            $key = md5($user_id.'_'.$pass); $keylink = home_url().'/?verify-user='.$user_id.'-'.$key;
+            add_user_meta($user_id, 'key-reg', $key);
             
             wp_mail($email, 
                     'Xác nhận Email đăng ký Hocodau.vn', 
@@ -320,6 +340,18 @@ function create_account() {
     }
     }
     
+    if(isset($_GET['verify-user']) && $_GET['verify-user'] !== ''){
+        $key = $_GET['verify-user'];
+        $user_id = split('-', $key)[0];
+        if(split('-', $key)[1] == get_user_meta($user_id, 'key-reg', true)){
+            update_user_meta($user_id, 'key-reg', 1);
+        }
+    }
+}
+
+add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+function set_html_content_type(){
+    return 'text/html';
 }
 
 //user field
@@ -351,6 +383,7 @@ function fl_show_user_field($user){
                 <?php foreach ($term_courses as $course){ ?>
                 <?php 
                 $check = '';
+				if($center_course)
                 if(in_array($course->term_id, $center_course)){
                     $check = 'checked';
                 }
@@ -382,7 +415,7 @@ function fl_show_user_field($user){
                 <?php }
             }
             ?>
-                <tr>
+			<tr>
                     <th>Giới thiệu</th>
                     <td><?php wp_editor(get_user_meta($user->ID, 'mydescription', true), 'mydescription', array('textarea_rows'=>7)); ?></td>
                 </tr>
@@ -404,9 +437,8 @@ function fl_save_user_field($user_id){
     update_user_meta($user_id, 'center-mana', $_POST['center-mana']);
     update_user_meta($user_id, 'center-course', $_POST['center-course']);
     update_user_meta($user_id, 'center-reg-addr', $_POST['center-reg-addr']);
-    update_user_meta($user_id, 'mydescription', $_POST['mydescription']);
+	update_user_meta($user_id, 'mydescription', $_POST['mydescription']);
 }
-
 
 //load more comment
 function load_more_comment() {
@@ -459,7 +491,7 @@ function add_meta_comment_like($comment_id) {
 
 
 function comment_with_like($comment, $args, $depth) {
-    $GLOBALS['comment'] = $comment; 
+    $GLOBALS['comment'] = $comment;
     ?>
     <li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
         <article id="">
@@ -478,7 +510,7 @@ function comment_with_like($comment, $args, $depth) {
                 ?>
                 </div>
                 <div class="comment-content">
-                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 35, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
+                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 100, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
 
                     <div class="reply">
 
@@ -592,6 +624,7 @@ function fl_comment_rank() {
     die();
 }
 
+
 add_action('wp_ajax_load_more_post', 'iz_load_more_post');
 add_action('wp_ajax_nopriv_load_more_post', 'iz_load_more_post');
 function iz_load_more_post(){
@@ -666,6 +699,7 @@ function iz_load_more_post(){
     }
     die();
 }
+
 
 add_action('wp_ajax_load_more_post_eng_id', 'iz_load_more_post_eng_id');
 add_action('wp_ajax_nopriv_load_more_post_eng_id', 'iz_load_more_post_eng_id');
@@ -742,8 +776,9 @@ function iz_load_more_post_eng_id(){
     die();
 }
 
-
 include_once 'user/ajax-login.php';
+
+
 
 add_action('admin_menu', 'fl_remove_menu_items');
 function fl_remove_menu_items(){
@@ -758,20 +793,20 @@ function fl_remove_menu_items(){
 
 add_action('admin_init', 'iz_add_role_cap', 999);
 function iz_add_role_cap(){
-    $roles = array('english-center-role');
+    $roles = array('english-center-role', 'editor','administrator');
     foreach ($roles as $the_role){
         $role = get_role($the_role);
         $role->add_cap('read');
         $role->add_cap('read_english-center');
         $role->add_cap( 'read_private_english-centers' );
-	$role->add_cap( 'edit_english-center' );
-	$role->add_cap( 'edit_english-centers' );
-	$role->add_cap( 'edit_others_english-centers' );
-	$role->add_cap( 'edit_published_english-centers' );
-	$role->add_cap( 'publish_english-centers' );
-	$role->add_cap( 'delete_others_english-centers' );
-	$role->add_cap( 'delete_private_english-centers' );
-	$role->add_cap( 'delete_published_english-centers' );
+	    $role->add_cap( 'edit_english-center' );
+	    $role->add_cap( 'edit_english-centers' );
+	    $role->add_cap( 'edit_others_english-centers' );
+	    $role->add_cap( 'edit_published_english-centers' );
+	    $role->add_cap( 'publish_english-centers' );
+	    $role->add_cap( 'delete_others_english-centers' );
+	    $role->add_cap( 'delete_private_english-centers' );
+	    $role->add_cap( 'delete_published_english-centers' );
     }
 }
 
@@ -789,6 +824,7 @@ function posts_for_current_author($query) {
 	return $query;
 }
 add_filter('pre_get_posts', 'posts_for_current_author');
+
 ?>
 
     

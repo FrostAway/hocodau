@@ -15,14 +15,14 @@
                 <div class="col-sm-6 col-lg-2">
                     <?php include_once 'time.php'; ?>
                 </div>
-            <div class="col-sm-6  col-lg-1">
+            <div class="col-xs-6 col-sm-6  col-lg-1">
                 <div class="form-group">
                     <label class="control-label"> Tìm</label>
                     <div><input class="btn btn-success" type="submit" value="Lọc" /></div>
                 </div>
             </div>
             <!--<input type="hidden" name="filter-submit" value="filter-submit" />-->
-            <div class="col-sm-6  col-lg-1">
+            <div class="col-xs-6 col-sm-6  col-lg-1">
                 <?php
                 global $wp;
                 $current_url = home_url(add_query_arg(array(), $wp->request))

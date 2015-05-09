@@ -37,7 +37,7 @@
 
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gia sử Tiếng Anh <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gia sư Tiếng Anh <span class="caret"></span></a>
                         <?php wp_nav_menu(array('theme_location' => 'tutor-menu', 'container' => '', 'menu_class' => 'dropdown-menu')); ?>
                     </li>
                 </ul>

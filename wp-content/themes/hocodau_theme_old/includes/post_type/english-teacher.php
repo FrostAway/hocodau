@@ -15,7 +15,7 @@ function create_post_type_tc() {
         'menu_position' => 6,
         'menu_icon' => 'dashicons-id-alt',
         'rewrite' => array(
-            'slug' => 'teacher',
+            'slug' => 'giao-vien-ta',
             'with_front' => FALSE,
         ),
         'supports' => array(

@@ -9,17 +9,10 @@ add_action('admin_init', function() {
     register_setting('home-page-group', 'home-logo');
     register_setting('home-page-group', 'home-hotline');
     
-    register_setting('home-page-group', 'slide-img1');
-    register_setting('home-page-group', 'slide-img2');
-    register_setting('home-page-group', 'slide-img3');
-    register_setting('home-page-group', 'slide-img4');
-    register_setting('home-page-group', 'slide-img5');
+    register_setting('home-page-group', 'banner-img');
+    register_setting('home-page-group', 'banner-title-1');
+    register_setting('home-page-group', 'banner-title-2');
     
-    register_setting('home-page-group', 'link-to1');
-    register_setting('home-page-group', 'link-to2');
-    register_setting('home-page-group', 'link-to3');
-    register_setting('home-page-group', 'link-to4');
-    register_setting('home-page-group', 'link-to5');
 });
 
 function home_page_setting() {
@@ -43,26 +36,30 @@ function home_page_setting() {
                 <input type="text" id="home-hotline" name="home-hotline" value="<?php echo get_option('home-hotline') ?>" style="width: 450px; float:left; margin:0 5px 10px;"/>
             </div>
             <hr style="clear: both;" />
-            <h3 style="clear: both;">Chọn ảnh hiển thị Slide</h3>
-            <?php for ($i=1; $i<=5; $i++){ ?>
+            <h3 style="clear: both;">Chọn ảnh hiển thị Banner</h3>
             <div style="margin:10px; float: left;" >
-                <label style="float:left; margin: 5px 5px 0 0;">Ảnh <?php echo $i ?>:</label>
-                <input type="text" id="image_<?= $i ?>" name="slide-img<?php echo $i ?>" value="<?php echo get_option('slide-img'.$i) ?>" style="width: 350px; float:left; margin:0 5px;"/>
-                <input class="button" id="_btn" onclick="upload_image(<?= $i ?>)" class="upload_image_button" type="button" value="Upload" />
+                <label style="float:left; margin: 5px 5px 0 0;">Ảnh :</label>
+                <input type="text" id="banner-img" name="banner-img" value="<?php echo get_option('banner-img') ?>" style="width: 350px; float:left; margin:0 5px;"/>
+                <input class="button" id="banner-img-btn" onclick="" class="upload_image_button" type="button" value="Upload" />
             </div>
-            <div style="margin:10px; float: left;">
-                <label>Link đến: </label>
-                <input type="text" name="link-to<?php echo $i ?>" value="<?php echo get_option('link-to'.$i) ?>" style="width: 300px;" />
+            
+            <hr />
+            <h3 style="clear: both;">Banner-title</h3>
+            <div style="margin: 10px;">
+                 <label style="float:left; margin: 5px 5px 0 0;">Title 1:</label>
+                <input type="text" name="banner-title-1" value="<?php echo get_option('banner-title-1') ?>" style="width: 350px; float:left; margin:0 5px;"/>
+            </div>
+            <div style="margin: 10px;">
+                 <label style="float:left; margin: 5px 5px 0 0;">Title 2:</label>
+                <input type="text" name="banner-title-2" value="<?php echo get_option('banner-title-2') ?>" style="width: 350px; float:left; margin:0 5px;"/>
             </div>
             <div style="clear: both"></div>
-            <?php } ?>
-
 
             <?php add_thickbox(); wp_enqueue_media(); ?>
             <script>
                 
-                function upload_image(id) {
-                 var custom_uploader;
+               jQuery('#banner-img-btn').click(function(){
+                    var custom_uploader;
                  if (custom_uploader) {
                     custom_uploader.open();
                     return;
@@ -79,14 +76,14 @@ function home_page_setting() {
                 //When a file is selected, grab the URL and set it as the text field's value
                 custom_uploader.on('select', function () {
                     attachment = custom_uploader.state().get('selection').first().toJSON();
-                    jQuery("#image_" + id).val(attachment.url);
+                    jQuery("#banner-img").val(attachment.url);
                     custom_uploader.close();
                 });
                 //Open the uploader dialog
                 custom_uploader.open();
                  
                  return false;
-                }
+                });
                 
                 jQuery('#btn-logo').click(function(){
                     var custom_uploader;

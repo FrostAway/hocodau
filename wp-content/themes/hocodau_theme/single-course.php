@@ -11,7 +11,7 @@
                 <?php if (have_posts()): while (have_posts()): the_post(); ?>
                 
                         <div id="post" class="clearfix">
-                            <?php the_breadcrumb(); ?>
+                            <div class="breadcrumb"><?php echo yoast_breadcrumb(); ?></div>
 
                             <div class="col-sm-12 col-lg-5">
                                 <?php

@@ -135,12 +135,58 @@ a{
     width: 100%; background: url(../images/slide/spinner.gif) no-repeat scroll 50% 50% rgba(0, 0, 0, 0);
     overflow: hidden;
     position: relative;
+    .banner{position: absolute; top: 0; left: 0;}
     .sl-items{
-        width: 500%; 
+        /*width: 500%;*/  width: 100%;
         .sl-item{
-            width: 20%;
-            display: inline-block; float: left;
-            img{display: none;}
+            background: #fff;
+            width: 100%; position: relative;
+            padding: 20px; .sizing-border;
+            .ad-search-box{
+                background: rgba(0, 0, 0, 0.4);
+                padding: 20px; .sizing-border;
+            }
+            .banner-title{
+                h3{
+                    max-width: 280px; text-transform: uppercase;
+                    background: rgba(0, 0, 0, 0.8);
+                    color: #fff; font-weight: bolder;
+                }
+                h4{
+                    background: rgba(255, 255, 255, 0.8);
+                    max-width: 280px; text-transform: uppercase; color: #000; font-weight: bolder;
+                }
+            }
+            .nav-tabs{
+                width: 100%;
+                li{
+                    width: 33.33%;
+                    background: #bda38a;
+                    a{
+                        text-transform: uppercase; text-align: center; font-weight: bolder;
+                        .fa{display: block; font-size: 27px;}
+                    }
+                }
+                a.active{
+                    background: #ccc;
+                }
+            }
+            .tab-content{
+                padding: 20px 0;
+                .ad-searchform{
+                    input[type="text"]{
+                        padding: 15px 10px;
+                        box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.3) inset;
+                        -moz-box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.3) inset;
+                        -webkit-box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.3) inset;
+                        -o-box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.3) inset;
+                        height: 50px;
+                    }
+                    .btn, .btn-success{
+                        margin: 15px 0;
+                    }
+                }
+            }
         }
     }
     .pagesl{
@@ -255,7 +301,7 @@ a{
         &:focus{background: #fff;}
         &:hover{background: none;}
     }
-    padding: 5px 0;
+    padding: 5px 10px 0;
     .border-radius(3px);
     border: 1px solid #ccc;
     .dropdown-menu{
@@ -335,7 +381,7 @@ a{
     .new-thumbnail{
         /*text-align: center;*/
         img{
-            width: 260px;
+            max-width: 300px; width: 100%;
         }
     }
     p{
@@ -394,7 +440,7 @@ a{
     }
     .time{font-size: 11px; color: #ff8000;
           margin-bottom: 10px;}
-    p{line-height: 17px; font-size: 14px;}
+    p{line-height: 22px; font-size: 13px;}
 }
 .rating{
     .star-rating{
@@ -511,6 +557,22 @@ a{
     display: inline-block;
 }
 
+.tax-share-cat{
+    .posts{
+        .post{
+            img{
+                margin-right: 0;
+                max-height: 150px;
+            }
+            .new-thumbnail{
+                max-height: 150px;
+                overflow: hidden;
+            }
+            .post-content{border-right: none;}
+        }
+    }
+}
+
 @media screen and (min-width: 768px){
     .column-left{
         float: left;
@@ -620,3 +682,28 @@ a{
 .running{
 
 }
+.pagination{
+    padding: 17px 10px; float: right; margin-right: 10px;
+    a{
+        padding: 5px 7px; font-weight: bold;
+    }
+}
+
+.fb_iframe_widget{
+    #facebook{
+    ._4z_9{
+        height: 32px!important;
+        ._4z_f fwb{
+            padding: 8px!important;
+        }
+    }
+    }
+}
+
+    #load_icon{
+        display: none;
+    }
+    
+    .tabs .tab-content #description .row{
+        margin-left: 0; margin-right: 0;
+    }

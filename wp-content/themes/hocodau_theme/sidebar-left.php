@@ -28,36 +28,27 @@
         <h3>Sự kiện</h3>
         <?php wp_nav_menu(array('theme_location'=>'event-menu', 'container'=>'', 'menu_class'=>'list-unstyled')); ?>
     </div>
+	
+	<div class="bar-share bar-event hidden-xs">
+		<h3>Chia sẻ</h3>
+		<?php wp_nav_menu(array('theme_location'=>'share-menu', 'container'=>'', 'menu_class'=>'list-unstyled')); ?>
+	</div>
 
-    <div class="bar-boxs">
-        <?php $page1 = get_page(41);  ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-1.png" />
-            <h3><a href="<?= get_page_link($page1->ID) ?>"><?php echo $page1->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= wp_trim_words($page1->post_content, 30); ?>
-            </p>
-        </div>
-        
-        <?php $page2 = get_page(44); ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-2.png" />
-            <h3><a href="<?= get_page_link($page2->ID) ?>"><?php echo $page2->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= wp_trim_words($page2->post_content, 30) ?>
-            </p>
-        </div>
-        
-        <?php $page3 = get_page(46); ?>
-        <div class="panel panel-default">
-            <img class="icon" src="<?php bloginfo('template_directory') ?>/assets/images/body/bar-icon-3.png" />
-            <h3><a href="<?= get_page_link($page3->ID) ?>"><?php echo $page3->post_title ?></a></h3>
-            <div class="clearfix"></div>
-            <p>
-                <?= wp_trim_words($page3->post_content, 30) ?>
-            </p>
+   <div class="bar-boxs">
+        <div class="facbook-like-box" style="width: 100%;">
+            <div class="fb-page" 
+                 style="
+                 transform: scale(0.94); 
+                 -moz-transform: scale(0.94);
+                 margin-left: -9px;
+                 " 
+                 data-href="https://www.facebook.com/hoctienganhodauvn"  data-hide-cover="false" data-show-facepile="true" data-show-posts="false">
+                <div class="fb-xfbml-parse-ignore">
+                    <blockquote cite="https://www.facebook.com/hoctienganhodauvn">
+                        <a href="https://www.facebook.com/hoctienganhodauvn">Hocodau.vn - Học tiếng Anh như thế nào, ở đâu ?</a>
+                    </blockquote>
+                </div>
+            </div>
         </div>
     </div>
 </div>

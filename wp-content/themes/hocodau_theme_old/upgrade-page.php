@@ -14,7 +14,7 @@
 
             <div class="upgrade">
                 <div class="animate">
-                    <div class="mess">I'm Comming ..... </div>
+                    <div class="mess">I'm Coming ..... </div>
                     <img class="running" src="<?= get_template_directory_uri() ?>/assets/images/body/animation-5.png" />
                 </div>
             </div>    

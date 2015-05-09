@@ -1,32 +1,9 @@
 <?php
-
-//global $provices;
-//$provices = array('1' => 'Quận Ba Đình', '2' => 'Quận Hoàn Kiếm', '3' => 'Quận Hai Bà Trưng', '4' => 'Quận Đống Đa', '5' => 'Quận Tây Hồ', '6' => 'Quận Cầu Giấy', '7' => 'Quận Thanh Xuân', '8' => 'Quận Hoàng Mai', '9' => 'Quận Long Biên', '10' => 'Huyện Từ Liêm', '11' => 'Huyện Thanh Trì', '12' => 'Huyện Gia Lâm', '13' => 'Huyện Đông Anh', '14' => 'Huyện Sóc Sơn', '15' => 'Quận Hà Đông', '16' => 'Thị xã Sơn Tây', '17' => 'Huyện Ba Vì', '18' => 'Huyện Phúc Thọ', '19' => 'Huyện Thạch Thất', '20' => 'Huyện Quốc Oai', '21' => 'Huyện Chương Mỹ', '22' => 'Huyện Đan Phượng', '23' => 'Huyện Hoài Đức', '24' => 'Huyện Thanh Oai', '25' => 'Huyện Mỹ Đức', '26' => 'Huyện Ứng Hoà', '27' => 'Huyện Thường Tín', '28' => 'Huyện Phú Xuyên', '29' => 'Huyện Mê Linh');
-//
-//function wpadmin_filter($url, $path, $orig_schema){
-//    $old = array('/(wp-admin)/');
-//    $admin_dir = WP_ADMIN_DIR;
-//    $new = array($admin_dir);
-//    return preg_replace($old, $new, $url, 1);
-//}
-//add_filter('site_url', 'wpadmin_filter', 10, 3);
-//function redirect_wp_admin(){
-//    $redirect_to = $_SERVER['REQUEST_URI'];
-//    if(count($_REQUEST)>0 && array_key_exists('redirect_to', $_REQUEST)){
-//        $redirect_to = $_REQUEST['redirect_to'];
-//        $check_wp_admin = stristr($redirect_to, 'wp_admin');
-//        if($check_wp_admin){
-//            wp_safe_redirect('/404.html');
-//        }
-//    }
-//}
-//add_action('login_form', 'redirect_wp_admin');
-//function block_wp_admin_init(){
-//    if(strpos(strtolower($_SERVER['REQUEST_URI']), '/wp-admin/')!== false){
-//        wp_safe_redirect('/404.html');
-//    }
-//}
-//add_action('init', 'block_wp_admin_init', 0);
+global $provices;
+$provices = array('1' => 'Quận Ba Đình', '2' => 'Quận Hoàn Kiếm', '3' => 'Quận Hai Bà Trưng', '4' => 'Quận Đống Đa', '5' => 'Quận Tây Hồ', '6' => 'Quận Cầu Giấy', '7' => 'Quận Thanh Xuân', '8' => 'Quận Hoàng Mai', '9' => 'Quận Long Biên', '10' => 'Huyện Từ Liêm', '11' => 'Huyện Thanh Trì', '12' => 'Huyện Gia Lâm', '13' => 'Huyện Đông Anh', '14' => 'Huyện Sóc Sơn', '15' => 'Quận Hà Đông', '16' => 'Thị xã Sơn Tây', '17' => 'Huyện Ba Vì', '18' => 'Huyện Phúc Thọ', '19' => 'Huyện Thạch Thất', '20' => 'Huyện Quốc Oai', '21' => 'Huyện Chương Mỹ', '22' => 'Huyện Đan Phượng', '23' => 'Huyện Hoài Đức', '24' => 'Huyện Thanh Oai', '25' => 'Huyện Mỹ Đức', '26' => 'Huyện Ứng Hoà', '27' => 'Huyện Thường Tín', '28' => 'Huyện Phú Xuyên', '29' => 'Huyện Mê Linh');
+if (!is_admin() && !is_page(256)) {
+    // echo '<script>window.location.href="'.  get_page_link(256).'"</script>'; die();
+}
 
 function removeHeadLinks() {
     remove_action('wp_head', 'rsd_link');
@@ -36,9 +13,8 @@ function removeHeadLinks() {
 wp_enqueue_script('jquery-ui-datepicker');
 wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
 
-//wp_deregister_script('jquery');
-//wp_register_script('jquery', get_template_directory_uri().'/assets/js/jquery.min.js');
-//wp_enqueue_script('jquery');
+wp_register_script('font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css');
+
 
 add_theme_support('post-thumbnails');
 add_image_size('single', 317, 320);
@@ -59,10 +35,11 @@ if (function_exists('register_sidebar')) {
     ));
 }
 if (function_exists('register_nav_menu')) {
-    register_nav_menu('course-menu', 'Course Menus');
+    register_nav_menu('course-menu-2', 'Course Menus');
     register_nav_menu('review-menu', 'Review Menus');
     register_nav_menu('event-menu', 'Event Menus');
     register_nav_menu('tutor-menu', 'Tutor Menus');
+    register_nav_menu('share-menu', 'Share Menus');
 }
 
 add_action('init', 'register_tax_city');
@@ -107,6 +84,12 @@ function setPostViews($postID) {
     }
 }
 
+// Add comment meta rating
+add_action('comment_post', function($comment_id) {
+    add_comment_meta($comment_id, 'rating', $_POST['rating'], true);
+    add_comment_meta($comment_id, 'comment-vote', 0, true);
+});
+
 function short_desc($post_id, $lm) {
     if (get_the_excerpt() != '') {
         return wp_trim_words(get_the_excerpt(), $lm, ' .... ');
@@ -125,10 +108,14 @@ function the_breadcrumb() {
         echo '">';
         echo 'Trang chủ';
         echo '</a></li>';
-        if (is_tax('course-cat') || is_singular('course')) {
+        if (is_tax('course-cat') || is_tax('share-cat') || is_singular('course')) {
             echo '<li>';
-            echo get_the_term_list($post->ID, 'course-cat', ' ', ', ');
-
+            
+                echo get_the_term_list($post->ID, 'course-cat', ' ', ', ');
+            
+        
+                echo get_the_term_list($post->ID, 'share-cat', ' ', ', ');
+            
             if (is_singular('course')) {
                 echo '</li><li>';
                 the_title();
@@ -182,6 +169,9 @@ function the_breadcrumb() {
     echo '</ol>';
 }
 
+
+
+include_once 'filter/filter-function.php';
 //pagination
 add_action('pre_get_posts', 'my_post_queries');
 
@@ -198,99 +188,8 @@ function my_post_queries($query) {
         if (is_search()) {
             $query->set('posts_per_page', 8);
         }
-        if (is_tax('course-cat') || is_search()) {
-            $query->set('posts_per_page', 8);
-            if (isset($_GET['gia'])) {
-                $price = $_GET['gia'];
-                $splprice = split("-", $price);
-                if (count($splprice) > 1) {
-                    $metaquery = array(
-                        array(
-                            'key' => 'course-price',
-                            'value' => $splprice,
-                            'type' => 'numeric',
-                            'compare' => 'BETWEEN'
-                        )
-                    );
-                    $query->set('meta_query', $metaquery);
-                } else {
-                    $metaquery = array(
-                        array(
-                            'key' => 'course-price',
-                            'value' => $price,
-                            'type' => 'numeric',
-                            'compare' => '>'
-                        )
-                    );
-                    $query->set('meta_query', $metaquery);
-                }
-            }
-
-            if (isset($_GET['dau-vao'])) {
-                $dv = $_GET['dau-vao'];
-                $dv = split("-", $dv)[1];
-                $query->set('meta_query', array(
-                    array(
-                        'key' => 'course-input',
-                        'value' => $dv,
-                        'type' => 'numeric',
-                        'compare' => '='
-                    )
-                ));
-            }
-            if (isset($_GET['dia-diem'])) {
-                $prov = $_GET['dia-diem'];
-                $query->set('tax_query', array(
-                    array(
-                        'taxonomy' => 'city-center',
-                        'field' => 'term',
-                        'terms' => array($prov),
-                        'operator' => 'IN'
-                    )
-                ));
-            }
-
-            if (isset($_GET['time'])) {
-                $tget = $_GET['time'];
-                $query->set('meta_query', array(
-                    array(
-                        'key' => 'course-month',
-                        'value' => $tget,
-                        'type' => 'numeric',
-                        'compare' => '='
-                    )
-                ));
-            }
-        }
-        if (is_tax('tutor-cat')) {
-            $query->set('posts_per_page', 8);
-            if (isset($_GET['tuoi'])) {
-                $tuoi = $_GET['tuoi'];
-                $spltuoi = split("-", $tuoi);
-                if (count($spltuoi) > 1) {
-                    $metaquery = array(
-                        array(
-                            'key' => 'tutor-age',
-                            'value' => $spltuoi,
-                            'type' => 'numeric',
-                            'compare' => 'BETWEEN'
-                        )
-                    );
-                } else {
-                    $metaquery = array(
-                        array(
-                            'key' => 'tutor-age',
-                            'value' => $tuoi,
-                            'type' => 'numeric',
-                            'compare' => '>'
-                        )
-                    );
-                }
-                $query->set('meta_query', $metaquery);
-            }
-        }
-        if (is_tag()) {
-            $query->set('post_type', 'course');
+        if (is_page(64)) {
+            $query->set('posts_per_page', 2);
         }
     }
 }
@@ -300,7 +199,23 @@ function unit($price) {
     if (is_numeric($price)) {
         return number_format($price, 0, ',', '.') . ' VNĐ';
     } else {
-        return $price . ' VNĐ';
+        $price_args = split(' ', $price);
+
+        if (count($price_args) == 1) {
+            return $price . ' VNĐ';
+        } else {
+
+            $partern = '/(vnđ)|(vnd)|(đ)/';
+            $replace = 'VNĐ';
+            $partern1 = '/buổi/';
+            $price = preg_replace($partern, $replace, $price);
+            $price = preg_replace($partern1, 'Buổi', $price);
+
+            if (is_numeric($price_args[0])) {
+                $price = number_format($price_args[0], 0, ',', '.') . ' ' . $price_args[1];
+            }
+            return $price;
+        }
     }
 }
 
@@ -318,6 +233,7 @@ include_once 'includes/add_post_type.php';
 include_once 'includes/theme_option.php';
 //include_once 'includes/show_column.php';
 
+include_once 'includes/cat-field.php';
 
 
 wp_enqueue_script('jquery');
@@ -331,15 +247,40 @@ add_action('admin_footer', function() {
 });
 
 //add role
-add_role('english-center', 'English Center', array(
+
+function fl_add_role(){
+add_role('english-center-role', 'Trung tâm Tiếng Anh', array(
     'read' => true,
     'edit_posts' => true,
     'delete_posts' => false,
     'create_posts' => true,
     'publish_posts' => true
 ));
+add_role('english-teacher-role', 'Giảng viên Tiếng Anh', array(
+    'read' => true,
+    'edit_posts' => true,
+    'delete_posts' => false,
+    'create_posts' => true,
+    'publish_posts' => true
+));
+add_role('english-club-role', 'Câu lạc bộ Tiếng Anh', array(
+    'read' => true,
+    'edit_posts' => true,
+    'delete_posts' => false,
+    'create_posts' => true,
+    'publish_posts' => true
+));
+}
+register_activation_hook(__FILE__, 'fl_add_role');
 
 //register
+
+function fl_register_script(){
+    wp_register_script('user_script', get_template_directory_uri().'/user/user_script.js');
+    wp_localize_script('user_script', 'params', array('course_cat'=>  get_terms('course-cat', array('hide_empty'=>false))));
+    wp_enqueue_script('user_script');
+}
+add_action('wp_enqueue_scripts', 'fl_register_script');
 
 add_action('init', 'create_account');
 
@@ -349,17 +290,143 @@ function create_account() {
         $email = $_POST['email'];
         $pass = $_POST['password'];
         $bio = $_POST['bio'];
-    }
-    if (!username_exists($user) && !email_exists($email)) {
+        $role = $_POST['default_role'];
+        $curr_url = $_POST['current_url'];
+        
+        $addrs = $_POST['center-reg-addr'];
+        
+        if (!username_exists($user) && !email_exists($email)) {
         $user_id = wp_create_user($user, $pass, $email);
+        
         if (!is_wp_error($user_id)) {
+            $key = md5($user_id.'_'.$pass); $keylink = home_url().'/?verify-user='.$user_id.'-'.$key;
+            add_user_meta($user_id, 'key-reg', $key);
+            
+            wp_mail($email, 
+                    'Xác nhận Email đăng ký Hocodau.vn', 
+                    'Chào mừng bạn đến với Hocodau.vn, Xin hãy <a href="'.$keylink.'">xác nhận email</a> để đăng nhập tài khoản trên hocodau.vn',
+                    'From: Hocodau.vn <hocodau@gmail.com>'."\r\n");
             $nuser = new WP_User($user);
-            $nuser->set_role('author');
-            wp_redirect(home_url());
+            $nuser->set_role($role);
+            
+            update_user_meta($user_id, 'first_name', $_POST['first-name']);
+            add_user_meta($user_id, 'center-mana', $_POST['center-mana']);
+            add_user_meta($user_id, 'center-course', $_POST['center-course']);
+            add_user_meta($user_id, 'center-reg-addr', $addrs);
+            add_user_meta($user_id, 'mydescription', $_POST['bio']);
+            
+            wp_redirect(home_url().'/?status=success');
             exit;
+        }else{
+            wp_redirect($curr_url.'/?status=error');
+            exit;
+        }
+    }else{
+        wp_redirect($curr_url.'/?status=exist');
+        exit;
+    }
+    }
+    
+    if(isset($_GET['verify-user']) && $_GET['verify-user'] !== ''){
+        $key = $_GET['verify-user'];
+        $user_id = split('-', $key)[0];
+        if(split('-', $key)[1] == get_user_meta($user_id, 'key-reg', true)){
+            update_user_meta($user_id, 'key-reg', 1);
         }
     }
 }
+
+add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+function set_html_content_type(){
+    return 'text/html';
+}
+
+//user field
+add_action( 'show_user_profile', 'fl_show_user_field' );
+add_action( 'edit_user_profile', 'fl_show_user_field' );
+
+add_action( 'personal_options_update', 'fl_save_user_field' );
+add_action( 'edit_user_profile_update', 'fl_save_user_field' );
+
+
+function fl_show_user_field($user){
+    if($user->roles[0] == 'english-center-role'){
+    ?>
+    <table class="form-table">
+        <tr>
+            <th>Tên giám đốc</th>
+            <td><input type="text" name="center-mana" size="40" value="<?php echo get_user_meta($user->ID, 'center-mana', true) ?>" /></td>
+        </tr>
+        <tr>
+            <th>Khóa học chủ đạo</th>
+            <?php
+            $center_course = get_user_meta($user->ID, 'center-course', true);
+            $center_course = ($center_course == null) ? null : $center_course;
+            
+            $term_courses = get_terms('course-cat', array('hide_empty'=>false));
+            if($term_courses != null){
+            ?>
+            <td>
+                <?php foreach ($term_courses as $course){ ?>
+                <?php 
+                $check = '';
+                if($center_course)
+                if(in_array($course->term_id, $center_course)){
+                    $check = 'checked';
+                }
+                        ?>
+                <div>
+                    <label>
+                        <input <?php echo $check; ?> type="checkbox" name="center-course[]" value="<?= $course->term_id ?>" /> 
+                        <?php echo ' '.  $course->name; ?>
+                    </label>
+                </div>
+                <?php } ?>
+            </td>
+            <?php } ?>
+        </tr>
+        <tr>
+            <th>Địa chỉ</th>
+            <td></td>
+        </tr>
+         <?php
+            $addrs = get_user_meta($user->ID, 'center-reg-addr', true);
+            $addrs = ($addrs == null) ? null : $addrs;
+            if($addrs != null){
+                $i = 1;
+                foreach ($addrs as $addr){ ?>
+                <tr>
+                    <th>Cơ sở <?php echo $i ?></th>
+                    <td><input type="text" name="center-reg-addr[]" value="<?php echo $addr ?>" /></td>
+                </tr>
+                <?php }
+            }
+            ?>
+                <tr>
+                    <th>Giới thiệu</th>
+                    <td><?php wp_editor(get_user_meta($user->ID, 'mydescription', true), 'mydescription', array('textarea_rows'=>7)); ?></td>
+                </tr>
+    </table>
+    
+    <script>
+        jQuery('#your-profile .form-table .user-last-name-wrap').hide();
+        jQuery('#your-profile .form-table .user-description-wrap').hide();
+    </script>
+    <?php
+    }
+}
+
+function fl_save_user_field($user_id){
+    if ( !current_user_can( 'edit_user', $user_id ) ){
+		return false;
+    }
+	
+    update_user_meta($user_id, 'center-mana', $_POST['center-mana']);
+    update_user_meta($user_id, 'center-course', $_POST['center-course']);
+    update_user_meta($user_id, 'center-reg-addr', $_POST['center-reg-addr']);
+    update_user_meta($user_id, 'mydescription', $_POST['mydescription']);
+}
+
 
 //load more comment
 function load_more_comment() {
@@ -410,14 +477,15 @@ function add_meta_comment_like($comment_id) {
 
 //vote comment
 
+
 function comment_with_like($comment, $args, $depth) {
-    $GLOBALS['comment'] = $comment;
+    $GLOBALS['comment'] = $comment; 
     ?>
     <li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
         <article id="">
             <div class="avatar">
-    <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size']);   ?>
-            
+    <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size']); ?>
+
             </div>
             <div class="comment-main">
                 <div class="author-name"><?php echo get_comment_author_link(); ?></div>
@@ -430,25 +498,25 @@ function comment_with_like($comment, $args, $depth) {
                 ?>
                 </div>
                 <div class="comment-content">
-                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 100, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
+                    <p id="content-<?php comment_ID() ?>"><?php echo wp_trim_words(get_comment_text(), 35, '... <a class="load-more-comment" href="' . get_comment_ID() . '">Xem thêm</a>'); ?></p>
 
                     <div class="reply">
 
                     </div>
                 </div>
                 <div class="comment-like">
-                    <?php 
-                    $users_like = unserialize((get_comment_meta(get_comment_ID(), 'users_like', true) == null)? array(): get_comment_meta(get_comment_ID(), 'users_like', true));
+                    <?php
+                    $users_like = unserialize((get_comment_meta(get_comment_ID(), 'users_like', true) == null) ? array() : get_comment_meta(get_comment_ID(), 'users_like', true));
                     $curr_user_id = get_current_user_id();
-                    if($curr_user_id!=0 && in_array($curr_user_id, $users_like)){
+                    if ($curr_user_id != 0 && in_array($curr_user_id, $users_like)) {
                         $like = 'Dislike';
-                    }else{
+                    } else {
                         $like = 'Like';
                     }
                     ?>
                     <a class="comment-like-btn" author-id="<?= $curr_user_id ?>" author-name="<?= get_comment_author(); ?>" comment-id="<?php comment_ID() ?>" href="#"><?= $like ?></a> || <span class="num_like"><?= get_comment_meta($comment->comment_ID, 'comment_like', true) ?></span>
                     <span class="stt_login"></span>
-                    <?php comment_reply_link(array_merge($args, array('reply_text' => __('Reply <span>&darr;</span>'), 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+    <?php comment_reply_link(array_merge($args, array('reply_text' => __('Reply <span>&darr;</span>'), 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
                 </div>
             </div>
         </article>
@@ -474,7 +542,7 @@ function comment_like_ajax() {
 
     $num_like = get_comment_meta($comment_id, 'comment_like', true);
     $num_like = ($num_like == '') ? 0 : $num_like;
-    
+
     $respond = array();
     $respond['stt_login'] = 1;
 
@@ -484,9 +552,10 @@ function comment_like_ajax() {
         $respond['stt_login'] = 3;
         $new_num = $num_like - 1;
         $like = update_comment_meta($comment_id, 'comment_like', $new_num);
-        foreach ($users_like as $key => $value){
-            if($value == $author_id){
-                unset($users_like[$key]);                break;
+        foreach ($users_like as $key => $value) {
+            if ($value == $author_id) {
+                unset($users_like[$key]);
+                break;
             }
         }
         update_comment_meta($comment_id, 'users_like', serialize($users_like));
@@ -524,16 +593,16 @@ function fl_comment_rank() {
     $rank = $_POST['rank'];
     if ($rank == 'new') {
         wp_list_comments(array(
-                    'avatar_size' => 87,
-                    'callback' => 'comment_with_like'
+            'avatar_size' => 87,
+            'callback' => 'comment_with_like'
                 ), get_comments(array(
             'post_id' => $post_id
         )));
     } else {
         wp_list_comments(array(
-                    'avatar_size' => 87,
-                    'callback' => 'comment_with_like'
-        ), get_comments(array(
+            'avatar_size' => 87,
+            'callback' => 'comment_with_like'
+                ), get_comments(array(
             'post_id' => $post_id,
             'meta_key' => 'comment_like',
             'orderby' => 'meta_value_num',
@@ -543,7 +612,203 @@ function fl_comment_rank() {
     die();
 }
 
-// login ajax
+add_action('wp_ajax_load_more_post', 'iz_load_more_post');
+add_action('wp_ajax_nopriv_load_more_post', 'iz_load_more_post');
+function iz_load_more_post(){
+    $page = $_POST['page'];
+     $posts = query_posts(array('post_type'=>'course', 'offset'=>8*$page, 'posts_per_page'=>8));
+    global $wp_query;   
+    if($page <= $wp_query->found_posts){  
+    while(have_posts()): the_post();
+    ?>
+    <div class="post row">
+        <div class="col-xs-3 col-md-4 col-lg-2">
+            <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
+        </div>
+        <div class="col-xs-9 col-md-8 col-lg-6 post-content">
+            <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+            <p class="hidden-xs hidden-sm">
+                <?php echo short_desc(get_the_ID(), 65); ?>
+            </p>
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-4 ">
+            <table class="post-info">
+                <tr>
+                    <td class="lb ">Giá</td>
+                    <td class="info price"><?= unit(get_post_meta(get_the_ID(), 'course-price', true)); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Đánh giá</td>
+                    <td class="info">
+                        <div class="rating">
+                            <div title="5.00 / 5 điểm" class="star-rating">
+                                <span>
+                                    <strong class="num"><?= cal_rate(get_the_ID()) ?></strong> trên 5			
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <?php
+                    $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
+                    if ($center_id != 0) {
+                        ?>
+                        <th class="lb">Trung tâm</th>
+                        <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                    <?php } ?>
+                </tr>
+                <tr>
+                    <td class="lb">Thời gian</td>
+                    <td class="info"><?= wp_trim_words(get_post_meta(get_the_ID(), 'course-time', true), 2, ''); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Địa điểm</td>
+                    <td class="info">
+                        <?php
+                        $terms = get_the_terms(get_the_ID(), 'city-center');
+                        if ($terms)
+                            foreach ($terms as $term) {
+                                echo '<div>' . $term->name . '</div>';
+                            }
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <?php edit_post_link("Edit"); ?>
+    <hr class="clearfix" />
+    <?php
+    endwhile;    wp_reset_query();
+    }else{
+        echo 'no post found';
+    }
+    die();
+}
+
+add_action('wp_ajax_load_more_post_eng_id', 'iz_load_more_post_eng_id');
+add_action('wp_ajax_nopriv_load_more_post_eng_id', 'iz_load_more_post_eng_id');
+function iz_load_more_post_eng_id(){
+    $page = $_POST['page'];
+     query_posts(array('post_type' => 'course', 'meta_key' => 'eng-center-id', 'meta_value' => $_POST['eng_id'],'offset'=>5*$page, 'posts_per_page'=>5));
+    global $wp_query;   
+    if($page <= $wp_query->found_posts){  
+    while(have_posts()): the_post();
+    ?>
+    <div class="post row">
+        <div class="col-xs-3 col-md-4 col-lg-2">
+            <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
+        </div>
+        <div class="col-xs-9 col-md-8 col-lg-6 post-content">
+            <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+            <p class="hidden-xs hidden-sm">
+                <?php echo short_desc(get_the_ID(), 65); ?>
+            </p>
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-4 ">
+            <table class="post-info">
+                <tr>
+                    <td class="lb ">Giá</td>
+                    <td class="info price"><?= unit(get_post_meta(get_the_ID(), 'course-price', true)); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Đánh giá</td>
+                    <td class="info">
+                        <div class="rating">
+                            <div title="5.00 / 5 điểm" class="star-rating">
+                                <span>
+                                    <strong class="num"><?= cal_rate(get_the_ID()) ?></strong> trên 5			
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <?php
+                    $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
+                    if ($center_id != 0) {
+                        ?>
+                        <th class="lb">Trung tâm</th>
+                        <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                    <?php } ?>
+                </tr>
+                <tr>
+                    <td class="lb">Thời gian</td>
+                    <td class="info"><?= wp_trim_words(get_post_meta(get_the_ID(), 'course-time', true), 2, ''); ?></td>
+                </tr>
+                <tr>
+                    <td class="lb">Địa điểm</td>
+                    <td class="info">
+                        <?php
+                        $terms = get_the_terms(get_the_ID(), 'city-center');
+                        if ($terms)
+                            foreach ($terms as $term) {
+                                echo '<div>' . $term->name . '</div>';
+                            }
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <?php edit_post_link("Edit"); ?>
+    <hr class="clearfix" />
+    <?php
+    endwhile;    wp_reset_query();
+    }else{
+        echo 'no post found';
+    }
+    die();
+}
+
+
 include_once 'user/ajax-login.php';
 
+add_action('admin_menu', 'fl_remove_menu_items');
+function fl_remove_menu_items(){
+    global $current_user;
+    if($current_user->roles[0] == 'english-center-role'){
+        remove_menu_page('edit.php?post_type=teacher');
+        remove_menu_page('edit.php?post_type=english-club');
+        remove_menu_page('edit.php?post_type=event');
+        remove_menu_page('edit.php?post_type=english-tutor');
+    }
+}
+
+add_action('admin_init', 'iz_add_role_cap', 999);
+function iz_add_role_cap(){
+    $roles = array('english-center-role');
+    foreach ($roles as $the_role){
+        $role = get_role($the_role);
+        $role->add_cap('read');
+        $role->add_cap('read_english-center');
+        $role->add_cap( 'read_private_english-centers' );
+	$role->add_cap( 'edit_english-center' );
+	$role->add_cap( 'edit_english-centers' );
+	$role->add_cap( 'edit_others_english-centers' );
+	$role->add_cap( 'edit_published_english-centers' );
+	$role->add_cap( 'publish_english-centers' );
+	$role->add_cap( 'delete_others_english-centers' );
+	$role->add_cap( 'delete_private_english-centers' );
+	$role->add_cap( 'delete_published_english-centers' );
+    }
+}
+
+
+function posts_for_current_author($query) {
+	global $pagenow;
+
+	if( 'edit.php' != $pagenow || !$query->is_admin )
+	    return $query;
+
+	if( !current_user_can( 'manage_options' ) ) {
+		global $user_ID;
+		$query->set('author', $user_ID );
+	}
+	return $query;
+}
+add_filter('pre_get_posts', 'posts_for_current_author');
 ?>
+
+    

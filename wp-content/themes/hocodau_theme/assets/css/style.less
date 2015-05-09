@@ -381,7 +381,7 @@ a{
     .new-thumbnail{
         /*text-align: center;*/
         img{
-            width: 260px;
+            max-width: 300px; width: 100%;
         }
     }
     p{
@@ -440,7 +440,7 @@ a{
     }
     .time{font-size: 11px; color: #ff8000;
           margin-bottom: 10px;}
-    p{line-height: 17px; font-size: 14px;}
+    p{line-height: 22px; font-size: 13px;}
 }
 .rating{
     .star-rating{
@@ -555,6 +555,22 @@ a{
 }
 .post-edit-link{
     display: inline-block;
+}
+
+.tax-share-cat{
+    .posts{
+        .post{
+            img{
+                margin-right: 0;
+                max-height: 150px;
+            }
+            .new-thumbnail{
+                max-height: 150px;
+                overflow: hidden;
+            }
+            .post-content{border-right: none;}
+        }
+    }
 }
 
 @media screen and (min-width: 768px){

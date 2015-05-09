@@ -5,8 +5,3 @@
 .clicked{
     background: #6ce4f0;
 }
-
-#reviews .comment-content{
-    ul{list-style: disc;}
-    ol{list-style: decimal;}
-}

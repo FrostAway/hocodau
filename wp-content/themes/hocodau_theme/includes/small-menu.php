@@ -47,6 +47,12 @@
                             <?php wp_nav_menu(array('theme_location' => 'event-menu', 'container' => '', 'menu_class' => 'dropdown-menu')); ?>
                     </li>
                 </ul>
+				<ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Chia sẻ <span class="caret"></span></a>
+                            <?php wp_nav_menu(array('theme_location' => 'share-menu', 'container' => '', 'menu_class' => 'dropdown-menu')); ?>
+                    </li>
+                </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

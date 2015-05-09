@@ -15,7 +15,7 @@ function create_post_type_elct() {
             'with_front' => FALSE,
         ),
         'supports' => array(
-            'title', 'thumbnail', 'editor', 'excerpt', 'comments'
+            'title', 'thumbnail', 'editor', 'excerpt', 'comments', 'author'
         ),
         'taxonomies' => array('post_tag'),
         'capability_type' => 'english-center',
@@ -73,7 +73,7 @@ function show_elct_box() {
                         <tr>
                             <td>
                                 <label><?php echo $box['label'] ?>: </label>
-                                <button id="add-center-location" class="button" style=""><span class="dashicons dashicons-plus" style="padding-top: 3px;"></span></button>
+                                <button id="add-center-location" class="button" style=""><span class="dashicons dashicons-plus" style="padding-top: 4px;"></span></button>
                             </td>
                             <td></td>
                         </tr>
@@ -90,7 +90,7 @@ function show_elct_box() {
                                     <?php } ?>
                                 </select>
                             </td>
-                            <td><a class="del-center-location" href="#"><span class="dashicons dashicons-no-alt"></span></a></td>
+							<td><a class="del-center-location" href="#"><span class="dashicons dashicons-no-alt"></span></a></td>
                         </tr>
                         <?php } ?>
                         
@@ -148,6 +148,7 @@ function show_elct_box() {
         ?>
 
         <?php } ?>
+                    
     </table>
     <input type="hidden" name="english-center-information" />
     <?php

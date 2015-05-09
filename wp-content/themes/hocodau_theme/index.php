@@ -80,7 +80,7 @@
                     </div>
                     <?php // include_once 'includes/filter.php'; ?>
                     <?php include_once 'filter/filter_bar.php'; ?>
-                    <div class="posts" id="list-posts">
+                    <div class="posts" id="list-post-append">
                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
                                 <div class="post row">
                                     <div class="col-xs-3 col-md-4 col-lg-2">
@@ -117,7 +117,7 @@
                                                     ?>
                                                     <th class="lb">Trung tâm</th>
                                                     <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
-                                                <?php } ?>
+        <?php } ?>
                                             </tr>
                                             <tr>
                                                 <td class="lb">Thời gian</td>
@@ -142,8 +142,7 @@
                                 <hr class="clearfix" />
                             <?php endwhile;
                             wp_reset_query(); ?>
-                                
-                                <script>
+							<script>
                                     jQuery(document).ready(function () {
                                         var page = parseInt('<?php echo (get_query_var('paged') == 0) ? 1 : get_query_var('paged'); ?>');
 
@@ -158,7 +157,7 @@
                                                     page: page
                                                 },
                                                 success: function (data) {
-                                                    jQuery('#list-posts').append(data);
+                                                    jQuery('#list-post-append').append(data);
                                                     $('#load_icon').fadeOut(200);
                                                 }
                                             });

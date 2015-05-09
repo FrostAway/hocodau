@@ -15,7 +15,7 @@ function create_post_type_event() {
         'menu_position' => 7,
         'menu_icon' => 'dashicons-admin-links',
         'rewrite' => array(
-            'slug' => 'su-kien',
+            'slug' => 'su-kien-ta',
             'with_front' => FALSE,
         ),
         'supports' => array(

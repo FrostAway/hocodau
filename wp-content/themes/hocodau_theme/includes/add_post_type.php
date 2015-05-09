@@ -5,6 +5,7 @@ include_once 'post_type/english-club.php';
 include_once 'post_type/english-event.php';
 include_once 'post_type/english-teacher.php';
 include_once 'post_type/english-tutor.php';
+include_once 'post_type/english-share.php';
 
 function create_post_type_course() {
     register_post_type('course', array(
@@ -32,8 +33,8 @@ function create_post_type_course() {
         'public' => true,
         'hierarchical' => true,
         'show_admin_column' => true,
-        'rewirte' => array('slug' => 'muc-khoa-hoc'),
-        'query_var' => true
+        'query_var' => true,
+        'rewrite' => array('slug' => 'danh-muc-khoa-hoc', 'with_front'=>false),
     ));
 }
 
@@ -93,13 +94,13 @@ $post_fields = array(
         'name' => 'course-location',
         'label' => 'Địa điểm',
         'size' => '40'
-    ),
-//    array(
-//        'type' => 'text',
-//        'name' => 'course-mana',
-//        'label' => 'Giảng viên',
-//        'size' => '40'
-//    ),
+    )
+    //array(
+     //   'type' => 'text',
+     //   'name' => 'course-mana',
+     //   'label' => 'Giảng viên',
+    //    'size' => '40'
+    //),
 //    array(
 //        'type' => 'text',
 //        'name' => 'course-cons',

@@ -8,6 +8,7 @@ Version: 1.0
 */
 
 
+
 ol.commentlist {
   list-style: none; padding-left: 0px;
   width: 100%;
@@ -80,3 +81,22 @@ ol.commentlist ul.children {
 #editor_bar a{
    font-size: 16px;
 }
+
+.fb_iframe_widget{
+    height: 35px;
+}
+
+.single #post .content img{
+    max-width: 100%;
+}
+.single #post .content table{
+    max-width: 100%;
+}
+#fb-root {
+  display: none;
+}
+ 
+/* To fill the container and nothing else */
+/*.fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] {
+  width: 100% !important;
+}*/

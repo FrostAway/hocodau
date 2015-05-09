@@ -11,7 +11,7 @@
                 <?php if (have_posts()): while (have_posts()): the_post(); ?>
 
                         <div id="post" class="clearfix">
-                            <?php the_breadcrumb(); ?>
+							<div class="breadcrumb"><?php echo yoast_breadcrumb(); ?></div>
 
                             <div class="col-sm-12 col-lg-5">
                                 <?php
@@ -38,19 +38,13 @@
                                     <tr class="">
                                         <td class="lb">Địa điểm</td>
                                         <td class="info">
-                                            <?php
-                                            $locates = unserialize(get_post_meta(get_the_ID(), 'center-location', true));
+                                            <?php 
+                                            $locates = unserialize(get_post_meta(get_the_ID(), 'center-location', true)); 
                                             $locates = ($locates == null) ? null : $locates;
-                                            if ($locates != null) {
-                                                $i = 1;
-                                                foreach ($locates as $lc) {
-                                                    ?>
-                                                    <div>Địa chỉ <?=
-                                                        $i . ': ' . $lc;
-                                                        $i++;
-                                                        ?></div>
-                                                    <?php
-                                                }
+                                            if($locates != null){ $i=1;
+                                                foreach ($locates as $lc){ ?>
+                                            <div>Địa chỉ <?= $i.': '.$lc; $i++; ?></div>
+                                                <?php }
                                             }
                                             ?>
                                         </td>
@@ -86,12 +80,12 @@
                             </div>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade in active" id="description">
-
+                                    
                                     <?php the_content() ?>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="courses">
                                     <h3>Danh sách khóa học</h3>
-                                    <?php query_posts(array('post_type' => 'course', 'meta_key' => 'eng-center-id', 'meta_value' => get_the_ID(), 'posts_per_page'=>5)); ?>
+                                    <?php query_posts(array('post_type'=>'course', 'meta_key'=>'eng-center-id', 'posts_per_page'=>5, 'meta_value'=>  get_the_ID())); ?>
                                     <div class="posts">
                                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
                                                 <div class="post row">
@@ -101,7 +95,7 @@
                                                     <div class="col-xs-9 col-md-8 col-lg-6 post-content">
                                                         <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                         <p class="hidden-xs hidden-sm">
-                                                            <?php echo short_desc(get_the_ID(), 65) ?>
+                                                            <?php echo short_desc(get_the_ID(), 65)?>
                                                         </p>
                                                     </div>
                                                     <div class="col-xs-12 col-md-12 col-lg-4 ">
@@ -123,12 +117,11 @@
                                                                 </td>
                                                             </tr>
                                                             <tr class="">
-                                                                <?php
+                                                            <?php
                                                                 $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
-                                                                if ($center_id != 0) {
-                                                                    ?>
-                                                                    <th class="lb">Trung tâm</th>
-                                                                    <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
+                                                                if($center_id != 0){ ?>
+                                                                <th class="lb">Trung tâm</th>
+                                                                <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
                                                                 <?php } ?>
                                                             </tr>
                                                             <tr>
@@ -138,21 +131,19 @@
                                                             <tr>
                                                                 <td class="lb">Địa điểm</td>
                                                                 <td class="info"><?php
-                                                                    $terms = get_the_terms(get_the_ID(), 'city-center');
-                                                                    if ($terms)
-                                                                        foreach ($terms as $term) {
-                                                                            echo '<div>' . $term->name . '</div>';
-                                                                        }
-                                                                    ?>
+                                                 $terms = get_the_terms(get_the_ID(), 'city-center');
+                                                 if($terms) foreach ($terms as $term){
+                                                     echo '<div>'.$term->name.'</div>';
+                                                 }
+                                                ?>
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                     </div>
                                                 </div>
                                                 <hr class="clearfix" />
-                                                <?php
-                                            endwhile;
-                                            wp_reset_query();
+                                            <?php endwhile;
+                                           wp_reset_query();
                                             ?>
 
                                             <script>
@@ -187,14 +178,13 @@
 
                                         <div class="clearfix"></div>
                                     </div>
-                                    <?php global $wp_query;
-                                    if($wp_query->found_posts > 5 ){ ?>
+                                    
                                     <a href="#" id="post-load-more" eng-id="<?= get_the_ID() ?>" class="btn btn-success">Xem Thêm</a> <img id="load_icon" src="<?php echo get_template_directory_uri() ?>/assets/images/load.gif" width="50" height="50" />
-                                    <?php } ?>
+                                    
                                 </div>
                             </div>
-
-
+                            
+                            
                             <div role="tabpanel">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active">
@@ -206,26 +196,24 @@
                                 </ul>
                             </div>
                             <div class="tab-content">
-
+                                
                                 <div role="tabpanel" class="tab-pane fade in active" id="reviews">
                                     
                                     <?php comments_template(); ?>
-
+                                    
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="facebook_comments">
                                     <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                    endwhile;
-                    wp_reset_query();
+                    <?php endwhile; wp_reset_query();
                 else:
                     ?>
                     <h3>Không có bài viết nào</h3>
                 <?php endif; ?>
             </div>
-            <?php get_sidebar('left'); ?>
+             <?php get_sidebar('left'); ?>
         </div>
     </div>
 </div>

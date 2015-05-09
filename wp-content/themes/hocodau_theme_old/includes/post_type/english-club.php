@@ -13,7 +13,7 @@ function create_post_type_elclb() {
         'menu_position' => 5,
         'menu_icon' => 'dashicons-groups',
         'rewrite' => array(
-            'slug' => 'english-club',
+            'slug' => 'cau-lac-bo',
             'with_front' => FALSE,
         ),
         'supports' => array(
