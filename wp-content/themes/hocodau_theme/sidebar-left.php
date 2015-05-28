@@ -38,9 +38,7 @@
         <div class="facbook-like-box" style="width: 100%;">
             <div class="fb-page" 
                  style="
-                 transform: scale(0.94); 
-                 -moz-transform: scale(0.94);
-                 margin-left: -9px;
+                 
                  " 
                  data-href="https://www.facebook.com/hoctienganhodauvn"  data-hide-cover="false" data-show-facepile="true" data-show-posts="false">
                 <div class="fb-xfbml-parse-ignore">

@@ -15,13 +15,13 @@
 
                             <div class="col-sm-12 col-lg-5">
                                 <?php
-                                echo get_the_post_thumbnail(get_the_ID(), 'single', array(
+                                echo get_the_post_thumbnail(get_the_ID(), 'thumb_single', array(
                                     'class' => 'post-thumbnail img-responsive'
                                 ))
                                 ?>
                             </div>
                             <div class="col-sm-12 col-lg-7 content">
-                                <h3 class="content-title"><?php the_title(); ?></h3>
+                                <h1 class="content-title"><?php the_title(); ?></h1>
                                 <table class="short-desc">
                                     <tr>
                                         <td class="cl1"><div class="">Xếp hạng chất lượng</div></td>
@@ -87,96 +87,7 @@
                                     <h3>Danh sách khóa học</h3>
                                     <?php query_posts(array('post_type'=>'course', 'meta_key'=>'eng-center-id', 'posts_per_page'=>5, 'meta_value'=>  get_the_ID())); ?>
                                     <div class="posts">
-                                        <?php if (have_posts()): while (have_posts()): the_post(); ?>
-                                                <div class="post row">
-                                                    <div class="col-xs-3 col-md-4 col-lg-2">
-                                                        <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
-                                                    </div>
-                                                    <div class="col-xs-9 col-md-8 col-lg-6 post-content">
-                                                        <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                                                        <p class="hidden-xs hidden-sm">
-                                                            <?php echo short_desc(get_the_ID(), 65)?>
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-xs-12 col-md-12 col-lg-4 ">
-                                                        <table class="post-info">
-                                                            <tr>
-                                                                <td class="lb ">Giá</td>
-                                                                <td class="info price"><?= unit(get_post_meta(get_the_ID(), 'course-price', true)); ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="lb">Đánh giá</td>
-                                                                <td class="info">
-                                                                    <div class="rating">
-                                                                        <div title="5.00 / 5 điểm" class="star-rating">
-                                                                            <span>
-                                                                                <strong class="num"><?= cal_rate(get_the_ID()) ?></strong> trên 5			
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="">
-                                                            <?php
-                                                                $center_id = get_post_meta(get_the_ID(), 'eng-center-id', true);
-                                                                if($center_id != 0){ ?>
-                                                                <th class="lb">Trung tâm</th>
-                                                                <td class="info"><a href="<?= get_permalink($center_id) ?>"><?= get_the_title($center_id) ?></a></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="lb">Thời gian</td>
-                                                                <td class="info"><?= wp_trim_words(get_post_meta(get_the_ID(), 'course-time', true), 2); ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="lb">Địa điểm</td>
-                                                                <td class="info"><?php
-                                                 $terms = get_the_terms(get_the_ID(), 'city-center');
-                                                 if($terms) foreach ($terms as $term){
-                                                     echo '<div>'.$term->name.'</div>';
-                                                 }
-                                                ?>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <hr class="clearfix" />
-                                            <?php endwhile;
-                                           wp_reset_query();
-                                            ?>
-
-                                            <script>
-                                                jQuery(document).ready(function () {
-                                                    var page = parseInt('<?php echo (get_query_var('paged') == 0) ? 1 : get_query_var('paged'); ?>');
-
-                                                    jQuery('#post-load-more').click(function (e) {
-                                                        e.preventDefault();
-                                                        jQuery('#load_icon').fadeIn(100);
-                                                        jQuery.ajax({
-                                                            url: '<?php echo admin_url('admin-ajax.php') ?>',
-                                                            type: 'POST',
-                                                            data: {
-                                                                action: 'load_more_post_eng_id',
-                                                                page: page,
-                                                                eng_id: jQuery(this).attr('eng-id')
-                                                            },
-                                                            success: function (data) {
-                                                                jQuery('#courses .posts').append(data);
-                                                                jQuery('#load_icon').fadeOut(200);
-                                                            }
-                                                        });
-                                                        page = page + 1;
-                                                    });
-                                                });
-                                            </script>
-
-                                        <?php else:
-                                            ?>
-                                            <h3>Không có bài viết nào</h3>
-                                        <?php endif; ?>
-
-                                        <div class="clearfix"></div>
+                                        <?php include_once 'template/course_loop.php'; ?>
                                     </div>
                                     
                                     <a href="#" id="post-load-more" eng-id="<?= get_the_ID() ?>" class="btn btn-success">Xem Thêm</a> <img id="load_icon" src="<?php echo get_template_directory_uri() ?>/assets/images/load.gif" width="50" height="50" />

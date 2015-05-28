@@ -46,9 +46,10 @@
 	
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
         
+        <!--<link rel="stylesheet" href="<?php // bloginfo('template_directory') ?>/assets/css/jquery-ui.css">-->
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/editor_bar.css" />
+	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/editor_bar.css" />
         <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/style.css" />
 
 
@@ -87,7 +88,7 @@
        // if(!current_user_can( 'manage_options' ) && !is_page(256)){
        //     echo '<script>window.location.href="'.  get_page_link(256).'"</script>';
        // }
-	   if(wp_mail('vanlam0705@gmail.com', 'test wp mail', 'test some thing with wp mail')) echo '<script>alert("ok")</script>';
+	  // if(wp_mail('vanlam0705@gmail.com', 'test wp mail', 'test some thing with wp mail')) echo '<script>alert("ok")</script>';
         ?>
 
 <div id="top-header">

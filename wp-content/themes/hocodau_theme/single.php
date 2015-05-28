@@ -17,7 +17,7 @@
                             <div class="col-sm-12 col-lg-3">
                                 <!--<img class="post-thumbnail img-responsive" src="<?php //bloginfo('template_directory')  ?>/assets/images/body/anh-trang-review-17.jpg" />-->
                                 <?php
-                                echo get_the_post_thumbnail(get_the_ID(), 'single', array(
+                                echo get_the_post_thumbnail(get_the_ID(), 'thumb_single', array(
                                     'class' => 'post-thumbnail img-responsive'
                                 ))
                                 ?>

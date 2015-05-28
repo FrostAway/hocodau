@@ -30,7 +30,7 @@
                         query_posts($args);
                         ?>
 
-                        <h3><strong>Trung tâm Tiếng Anh</strong></h3> 
+                        <h1><strong>Trung tâm Tiếng Anh</strong></h1> 
 
                         <div class="page">
                             <?php previous_posts_link('<img src="' . get_template_directory_uri() . '/assets/images/body/icon-07.png" />') ?>

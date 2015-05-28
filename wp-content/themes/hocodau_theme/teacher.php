@@ -61,7 +61,7 @@
                         query_posts($args);
                         ?>
 
-                        <h3><strong>Giảng viên Tiếng Anh</strong></h3>  
+                        <h1><strong>Giảng viên Tiếng Anh</strong></h1>  
 
                         <div class="page">
                             <?php previous_posts_link('<img src="' . get_template_directory_uri() . '/assets/images/body/icon-07.png" />') ?>
@@ -107,7 +107,7 @@
                         <?php if (have_posts()): while (have_posts()): the_post(); ?>
                                 <div class="post row">
                                     <div class="col-xs-3 col-md-4 col-lg-2">
-                                        <a href="<?php the_permalink() ?>"><?php the_post_thumbnail() ?></a>
+                                        <a href="<?php the_permalink() ?>"><?php the_post_thumbnail('thumb_small') ?></a>
                                     </div>
                                     <div class="col-xs-9 col-md-8 col-lg-5 post-content">
                                         <h4 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>

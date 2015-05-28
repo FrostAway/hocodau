@@ -279,7 +279,7 @@ a{
 
 .box-title{
     position: relative;
-    h3{
+    h3,h1{
         font-size: 23px; color: #000; font-weight: bold; display: block;
         padding: 17px 20px; 
         .gradient(to bottom, #ffffff 0%, #f7f7f7 100%);
@@ -348,7 +348,10 @@ a{
             a{color: #4fc35f;}
         }
         .post-content{
-            border-right: 1px solid #999999;
+            /*border-right: 1px solid #999999;*/
+        }
+        .course-time{
+            padding-left: 0; padding-right: 0;
         }
         .post-info{
             width: 100%;
@@ -410,7 +413,7 @@ a{
     border: 1px solid #ccc;
     .box-shadown(0px 0px 5px);
     .post-thumbnail{}
-    h3{margin-top: 0px; text-transform: uppercase; color: #4fc35f;}
+    h3, h1{margin-top: 0px; text-transform: uppercase; color: #4fc35f; font-size: 23px;}
     .content{
         table.short-desc{
             width: 100%; font-size: 14px; margin-bottom: 20px;
@@ -440,7 +443,7 @@ a{
     }
     .time{font-size: 11px; color: #ff8000;
           margin-bottom: 10px;}
-    p{line-height: 22px; font-size: 13px;}
+    p{line-height: 22px; font-size: 15px;}
 }
 .rating{
     .star-rating{
@@ -595,8 +598,55 @@ a{
         }
     }
 }
+
+.course-time{
+    .show-course-time{
+        .ui-datepicker{
+            margin-top: -10px;
+        }
+        .ui-widget{
+            font-size: 0.9em!important;
+        }
+    }
+}
+
 @media screen and (max-width: 992px){
 
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+    .bar-boxs{
+        .facbook-like-box{
+            .fb-page{
+                transform: scale(0.78); 
+                 -moz-transform: scale(0.78);
+                 -webkit-transform: scale(0.78);
+                 -o-transform: scale(0.78);
+                 margin-left: -30px;
+            }
+        }
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px){
+    .bar-boxs{
+        .facbook-like-box{
+            .fb-page{
+            }
+        }
+    }
+}
+@media screen and (min-width: 1200px){
+    .bar-boxs{
+        .facbook-like-box{
+            .fb-page{
+                transform: scale(0.94); 
+                 -moz-transform: scale(0.94);
+                 -webkit-transform: scale(0.94);
+                 -o-transform: scale(0.94);
+                 margin-left: -9px;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 1200px){
@@ -609,6 +659,9 @@ a{
         .post{
             .post-content{
                 border-right: none;
+            }
+            .course-time{
+                padding-left: 15px; padding-right: 15px;
             }
         }
     }

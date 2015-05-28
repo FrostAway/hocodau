@@ -15,7 +15,7 @@
 
                             <div class="col-sm-12 col-lg-5">
                                 <?php
-                                echo get_the_post_thumbnail(get_the_ID(), 'single', array(
+                                echo get_the_post_thumbnail(get_the_ID(), 'thumb_single', array(
                                     'class' => 'post-thumbnail img-responsive'
                                 ))
                                 ?>

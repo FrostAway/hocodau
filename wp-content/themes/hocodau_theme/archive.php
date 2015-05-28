@@ -16,25 +16,25 @@
  			<?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
 
 			<?php /* If this is a category archive */ if (is_category()) { ?>
-				<h3><strong><?php single_cat_title(); ?></strong></h3>
+				<h1><?php single_cat_title(); ?></h1>
 
 			<?php /* If this is a tag archive */ } elseif( is_tag() ) { ?>
-				<h3><strong><?php single_tag_title(); ?></strong></h3>
+				<h1><?php single_tag_title(); ?></h1>
 
 			<?php /* If this is a daily archive */ } elseif (is_day()) { ?>
-				<h3><strong>Theo ngày <?php the_time('F jS, Y'); ?></strong></h3>
+				<h1>Theo ngày <?php the_time('F jS, Y'); ?></h1>
 
 			<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-				<h3><strong>Theo ngày <?php the_time('F, Y'); ?></strong></h3>
+				<h1>Theo ngày <?php the_time('F, Y'); ?></h1>
 
 			<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-				<h3><strong>Theo ngày <?php the_time('Y'); ?></strong></h3>
+				<h1>Theo ngày <?php the_time('Y'); ?></h1>
 
 			<?php /* If this is an author archive */ } elseif (is_author()) { ?>
-				<h3><strong>Author</strong></h3>
+				<h1>Author</h1>
 
 			<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-				<h3><strong>Blog</strong></h3>
+				<h1>Blog</h1>
 			
 			<?php } ?>
                           
@@ -51,7 +51,7 @@
                                     <h4><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h4>
                                     <div class="time">Thứ 2, ngày 29 tháng 11 năm 2015</div>
                                     <div class="new-thumbnail">
-                                        <?php the_post_thumbnail(); ?>
+                                        <?php the_post_thumbnail('thumb_small'); ?>
                                     </div>
                                     <p>
                                         <?php echo short_desc(get_the_ID(), 65);?>
@@ -81,7 +81,7 @@
 			
 	<?php else : ?>
 
-		<h3><strong>Nothing found</strong></h3>
+		<h1>Nothing found</h1>
 
 	<?php endif; ?>
 
